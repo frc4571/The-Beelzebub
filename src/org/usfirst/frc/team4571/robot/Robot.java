@@ -2,12 +2,15 @@ package org.usfirst.frc.team4571.robot;
 
 import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand2;
 import org.usfirst.frc.team4571.robot.commands.Gearpneumaticscommand;
+import org.usfirst.frc.team4571.robot.commands.ShooterCommand;
 import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team4571.robot.subsystems.Gearpneumatics;
+import org.usfirst.frc.team4571.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
@@ -24,7 +27,9 @@ public class Robot extends IterativeRobot {
 	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();
 	public static final AutonomousDriveCommand2 AUTO_DRIVE_COMMAND2 = new AutonomousDriveCommand2();
 	public static final Gearpneumatics GEAR_PNEUMATICS_SUBSYSTEM = new Gearpneumatics();
-	public static final Gearpneumaticscommand GEAR_PNEMATICS_COMMAND = new Gearpneumaticscommand(); 
+	public static final Gearpneumaticscommand GEAR_PNEMATICS_COMMAND = new Gearpneumaticscommand();
+	public static final ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem (); 
+	public static final ShooterCommand SHOOTER_COMMAND = new ShooterCommand ();
 
     /**
      * This function is run when the robot is first started up and should be
@@ -82,6 +87,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         Robot.LEFT_JOYSTICK.button1WhenPressed(GEAR_PNEMATICS_COMMAND);
+        Robot.LEFT_JOYSTICK.button2WhenPressed(SHOOTER_COMMAND);
     }
     
     /**

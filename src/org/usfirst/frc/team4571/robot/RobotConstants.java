@@ -23,6 +23,8 @@ public class RobotConstants {
 	public static final double DRIVE_TRAIN_DISTANCE_PER_PULSE = DRIVE_TRAIN_WHEEL_CIRCUMFERENCE / DRIVE_TRAIN_PULSES_PER_REVOLUTION;
 	public static final int ONE_ENCODER_CHANNEL_A = 11;
 	public static final int ONE_ENCODER_CHANNEL_B = 12;
+	public static final double SHOOTER_DISTANCE_PER_PULSE = 0.0;
+	
 	
 	
 	

@@ -99,7 +99,7 @@ public class RobotJoystick extends Joystick {
 		 * @return value corrected for sensitivity
 		 */
 		public double adjustForSensitivity( double originalValue, double tuningParameter ) {
-			if( tuningParameter == 0 ){
+			if( tuningParameter == 0 ) {
 				tuningParameter = RobotConstants.JOYSTICK_TUNING_PARAMETER;
 			}
 			return ( ( Math.pow(originalValue, 3) * tuningParameter ) + ( ( 1 - tuningParameter ) * originalValue ) );

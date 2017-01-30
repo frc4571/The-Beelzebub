@@ -1,12 +1,18 @@
 package org.usfirst.frc.team4571.robot;
 
-import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand;
 import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand2;
+import org.usfirst.frc.team4571.robot.commands.AutonomousShooter;
+import org.usfirst.frc.team4571.robot.commands.GearServoCommand;
+import org.usfirst.frc.team4571.robot.commands.Gearpneumaticscommand;
+import org.usfirst.frc.team4571.robot.commands.ShooterCommand;
 import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
+import org.usfirst.frc.team4571.robot.subsystems.GearSubsystem;
+import org.usfirst.frc.team4571.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
@@ -22,13 +28,18 @@ public class Robot extends IterativeRobot {
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
 	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();
 	public static final AutonomousDriveCommand2 AUTO_DRIVE_COMMAND2 = new AutonomousDriveCommand2();
+	public static final GearSubsystem GEAR_SUBSYSTEM = new GearSubsystem();
+	public static final Gearpneumaticscommand GEAR_PNEMATICS_COMMAND = new Gearpneumaticscommand();
+	public static final ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem (); 
+	public static final ShooterCommand SHOOTER_COMMAND = new ShooterCommand ();
+	public static final GearServoCommand GEAR_SERVO_COMMAND = new GearServoCommand();
+	public static final AutonomousShooter AUTONOMOUS_SHOOTER = new AutonomousShooter();
 
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-	@Override
-    public void robotInit() {
+	public void robotInit() {
     }
 	
 	/**
@@ -54,6 +65,7 @@ public class Robot extends IterativeRobot {
 	 */
     @Override
     public void autonomousInit() {
+    	Scheduler.getInstance().add(AUTONOMOUS_SHOOTER);
     	Scheduler.getInstance().add(AUTO_DRIVE_COMMAND2);
     }
 
@@ -67,7 +79,10 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
+    	
+    	Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
     	Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
+    	Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
     }
 
     /**
@@ -76,6 +91,9 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        Robot.LEFT_JOYSTICK.button1WhenPressed(GEAR_PNEMATICS_COMMAND);
+        Robot.LEFT_JOYSTICK.button2WhenPressed(SHOOTER_COMMAND);
+        Robot.LEFT_JOYSTICK.button3WhenPressed(GEAR_SERVO_COMMAND);
     }
     
     /**

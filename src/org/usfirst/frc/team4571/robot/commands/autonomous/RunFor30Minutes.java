@@ -10,8 +10,6 @@ public class RunFor30Minutes extends Command {
 	public boolean driveStop = false;
 	public RunFor30Minutes() {
 		requires(Robot.TANK_DRIVE_SUBSYSTEM);
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
 	}
 	// Called just before this Command runs the first time
 	protected void initialize() {
@@ -21,8 +19,8 @@ public class RunFor30Minutes extends Command {
 	protected void execute() {
 		long startFowardTime = System.currentTimeMillis();
 		long finishFowardTime = 1800000;
-		while( System.currentTimeMillis() - startFowardTime <= finishFowardTime ){
-			Robot.TANK_DRIVE_SUBSYSTEM.drive(.3,.3,true);
+		while( System.currentTimeMillis() - startFowardTime <= finishFowardTime ) {
+			Robot.TANK_DRIVE_SUBSYSTEM.drive(.3,.3);
 			driveStop = true;
 		}
 

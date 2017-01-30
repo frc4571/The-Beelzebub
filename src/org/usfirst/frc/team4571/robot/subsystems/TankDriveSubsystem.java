@@ -94,10 +94,6 @@ public class TankDriveSubsystem extends Subsystem {
 		return this.navX.getAngle();
 	}
 
-	public boolean isDistanceFinished() {
-		return distanceController.onTarget();
-	}
-	
 	public boolean isBothFinished() {
 		return distanceController.onTarget() && turnController.onTarget();
 	}
@@ -109,31 +105,27 @@ public class TankDriveSubsystem extends Subsystem {
 	public void setBothPIDParameters(double distanceSetPoint, double angleSetPoint) {
 		distanceController.reset();
 		turnController.reset();
-
 		distanceController.setOutputRange(-0.6, 0.6);
 		distanceController.setSetpoint(distanceSetPoint);
 		distanceController.setAbsoluteTolerance(0.1 * distanceSetPoint);
 		turnController.setOutputRange(-0.6, 0.6);
 		turnController.setSetpoint(angleSetPoint);
-		turnController.setAbsoluteTolerance(2.0f);
-		
+		turnController.setAbsoluteTolerance(2.0f);		
 		distanceController.enable();
 		turnController.enable();
 	}
 	
 	public void setAnglePIDParameter(double angleSetPoint) {
-		turnController.reset();
-		
+		turnController.reset();		
 		turnController.setOutputRange(-0.6, 0.6);
 		turnController.setSetpoint(angleSetPoint);
 		turnController.setAbsoluteTolerance(2.0f);
-
 		turnController.enable();
 	}
 	
 	// Teleop drive
-	public void drive(double leftValue, double rightValue, boolean squaredInputs) {
-		this.robotDrive.tankDrive(leftValue, rightValue, squaredInputs);
+	public void drive(double leftValue, double rightValue) {
+		this.robotDrive.tankDrive(leftValue, rightValue);
 	}
 
 	public void stop() {
@@ -146,5 +138,10 @@ public class TankDriveSubsystem extends Subsystem {
 	
 	public PIDController getTurnController() {
 		return this.turnController;
+	}
+	
+	public void disableBoth() {
+		this.distanceController.disable();
+		this.turnController.disable();
 	}
 }

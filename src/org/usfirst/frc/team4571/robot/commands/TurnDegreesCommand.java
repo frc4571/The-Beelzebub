@@ -13,8 +13,6 @@ public class TurnDegreesCommand extends Command {
     private double angle;
 
 	public TurnDegreesCommand(double angle) {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.TANK_DRIVE_SUBSYSTEM);
     	this.angle = angle;
     }
@@ -27,7 +25,7 @@ public class TurnDegreesCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	SmartDashboard.putNumber( "NavX angle", Robot.TANK_DRIVE_SUBSYSTEM.getNavXAngle() );
+    	SmartDashboard.putNumber("NavX Angle", Robot.TANK_DRIVE_SUBSYSTEM.getNavXAngle());
     	SmartDashboard.putNumber("Angle SetPoint", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getSetpoint());
     	System.out.println("Left Speed ( Distance - Turn )" + (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() - Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
     	System.out.println("Right Speed ( Distance + Turn )" + (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() + Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));

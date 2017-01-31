@@ -1,14 +1,23 @@
 package org.usfirst.frc.team4571.robot;
 
+import java.util.ArrayList;
+
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team4571.robot.commands.TurnDegreesCommand;
 import org.usfirst.frc.team4571.robot.commands.autonomous.DriveCommand;
 import org.usfirst.frc.team4571.robot.commands.autonomous.RunFor30Minutes;
 import org.usfirst.frc.team4571.robot.commands.teleOP.TankDriveCommand;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
+import org.usfirst.frc.team4571.robot.subsystems.vision.FindGearPegPipeline;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 
 /**
  * 
@@ -36,8 +45,26 @@ public class Robot extends IterativeRobot {
      */
 	@Override
     public void robotInit() {
+		
 		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_LEFT_90_DEGREES);
+		// initCamera();
     }
+	
+	private void initCamera() {
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(320, 240);
+
+		VisionThread visionThread = new VisionThread(camera, new FindGearPegPipeline(), pipeline -> {
+			ArrayList<MatOfPoint> keyPoints = pipeline.filterContoursOutput();
+			if (keyPoints != null) {
+				for (MatOfPoint keyPoint : keyPoints) {
+					Rect rect = Imgproc.boundingRect(keyPoint);
+					System.err.println("Found rect at (" + rect.x + ", " + rect.y + ") H: " + rect.height + ", W: " + rect.width);
+				}
+			}
+		});
+		visionThread.start();		
+	}
 	
 	/**
      * This function is called once each time the robot enters Disabled mode.
@@ -46,6 +73,8 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void disabledInit(){
+    	Robot.TANK_DRIVE_SUBSYSTEM.disableBoth();
+    	Robot.TANK_DRIVE_SUBSYSTEM.initialize();
     }
 	
     @Override
@@ -62,7 +91,7 @@ public class Robot extends IterativeRobot {
 	 */
     @Override
     public void autonomousInit() {
-    	Scheduler.getInstance().add(DRIVE_STRAIGHT_COMMAND);
+    	// Scheduler.getInstance().add(new TestVisionCommand());
     }
 
     /**
@@ -75,7 +104,8 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
-    	Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
+//    	 Scheduler.getInstance().add(new TestVisionCommand());
+    	 Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
     }
 
     /**

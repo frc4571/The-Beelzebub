@@ -35,8 +35,8 @@ public class TankDriveSubsystem extends Subsystem {
 	private final PIDController distanceController;
 	
 	private static final double navKp = 0.05;
-	private static final double navKi = 5.0;
-	private static final double navKd = 7.0;
+	private static final double navKi = 0.0;
+	private static final double navKd = 0.0;
 	
 	private final AHRS navX;
 	private final AngleOutput angleOutput;

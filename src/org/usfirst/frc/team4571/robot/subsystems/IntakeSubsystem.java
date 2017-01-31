@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class IntakeSubsystem extends Subsystem {
 	private CANTalon intakeMotor;
 	private DoubleSolenoid rollerSolenoid;
-	private boolean isRollerIn;
 	private Compressor compressor;
 	private Encoder encoder;
 
@@ -39,11 +38,9 @@ public class IntakeSubsystem extends Subsystem {
 	}
 	public void out(){
 		this.rollerSolenoid.set(DoubleSolenoid.Value.kForward);
-		isRollerIn = false;
 	}
 	public void in(){
 		this.rollerSolenoid.set(DoubleSolenoid.Value.kReverse);
-		isRollerIn = true;
 	}
 	public Value getRollerSolenoidValue(){
 		return rollerSolenoid.get();
@@ -53,8 +50,5 @@ public class IntakeSubsystem extends Subsystem {
 	}
 	public void stopRoller(double speed) {
 		this.intakeMotor.set(0);
-	}
-	public boolean isSolenoidIn(){
-		return this.isRollerIn;
 	}
 }

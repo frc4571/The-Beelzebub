@@ -1,7 +1,9 @@
 package org.usfirst.frc.team4571.robot.commands;
 
 import org.usfirst.frc.team4571.robot.Robot;
+import org.usfirst.frc.team4571.robot.RobotConstants;
 
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -10,25 +12,36 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class MillCommand extends Command {
 
+	private boolean isCurrentDirectionIsForward;
+	
     public MillCommand() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.MILL_SUBSYSTEM);
     }
-    public void forward(){
-    	Robot.MILL_SUBSYSTEM.forward(SmartDashboard.getDouble("MillForwardSpeed", 0.5));
+   
+	public void forward(){
+		Robot.MILL_SUBSYSTEM.forward(RobotConstants.MILL_CONSTANT_SPEED);
+    	SmartDashboard.putNumber("MillForwardSpeed", RobotConstants.MILL_CONSTANT_SPEED);
     }
+	
     public void reverse(){
-    	Robot.MILL_SUBSYSTEM.reverse(SmartDashboard.getDouble("MillReverseSpeed", -0.5));
+    	Robot.MILL_SUBSYSTEM.reverse(-RobotConstants.MILL_CONSTANT_SPEED);
+    	SmartDashboard.putNumber("MillReverseSpeed", -RobotConstants.MILL_CONSTANT_SPEED);
     }
+    
     // Called just before this Command runs the first time
     protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    forward();
-    
+    	if( isCurrentDirectionIsForward ){
+    		reverse();
+    	} else{
+    		forward();
+    	}
+    	isCurrentDirectionIsForward = !isCurrentDirectionIsForward;
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -17,8 +17,8 @@ public class MillSubsystem extends Subsystem {
 	
 	public MillSubsystem(){
 		
-		this.leftMillMotor = new Servo(RobotConstants.LEFT_MILL_CHANNEL);
-		this.rightMillMotor = new Servo(RobotConstants.RIGHT_MILL_CHANNEL);
+		this.leftMillMotor = new Servo(RobotConstants.MILL_LEFT_MOTOR_CHANNEL);
+		this.rightMillMotor = new Servo(RobotConstants.MILL_RIGHT_MOTOR_CHANNEL);
 	}
 	
 	public void forward(double speed){

@@ -20,7 +20,8 @@ public class RobotConstants {
 	public static final double DRIVE_TRAIN_WHEEL_CIRCUMFERENCE = DRIVE_TRAIN_WHEEL_DIAMETER_IN_FEET * Math.PI;
 	public static final double DRIVE_TRAIN_DISTANCE_PER_PULSE = DRIVE_TRAIN_WHEEL_CIRCUMFERENCE / DRIVE_TRAIN_PULSES_PER_REVOLUTION;
 
-	public static final int LEFT_MILL_CHANNEL = 1;
-	public static final int RIGHT_MILL_CHANNEL = 2;
+	public static final int MILL_LEFT_MOTOR_CHANNEL = 1;
+	public static final int MILL_RIGHT_MOTOR_CHANNEL = 2;
+	public static final double MILL_CONSTANT_SPEED = 1.0;
 
 }

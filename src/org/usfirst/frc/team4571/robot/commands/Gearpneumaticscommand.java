@@ -9,24 +9,24 @@ public class Gearpneumaticscommand extends Command {
 	
 	private boolean IsGearPushedOut;
 	public  Gearpneumaticscommand (){
-		requires(Robot.GEAR_PNEUMATICS_SUBSYSTEM);
+		requires(Robot.GEAR_SUBSYSTEM);
 	}
 
 
 	protected void initialize() {
-		Robot.GEAR_PNEUMATICS_SUBSYSTEM.initializeSubsystem();
+		Robot.GEAR_SUBSYSTEM.initializeSubsystem();
 
 	}
 	protected void execute (){
 		if (IsGearPushedOut){
-			Robot.GEAR_PNEUMATICS_SUBSYSTEM.pushIn();
+			Robot.GEAR_SUBSYSTEM.pushIn();
 			
 			IsGearPushedOut = false; 
 		}
 
 		else  { 
 
-         Robot.GEAR_PNEUMATICS_SUBSYSTEM.pushOut();
+         Robot.GEAR_SUBSYSTEM.pushOut();
          
          IsGearPushedOut = true;
 		}

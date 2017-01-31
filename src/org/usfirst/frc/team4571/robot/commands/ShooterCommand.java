@@ -13,10 +13,10 @@ public class ShooterCommand extends Command {
 
 	}
 protected void execute(){
-	Robot.SHOOTER_SUBSYSTEM.setSpeed(0.5);
+	Robot.SHOOTER_SUBSYSTEM.speed(0.5);
 	
 	if (IsShooterForward){
-		Robot.SHOOTER_SUBSYSTEM.setSpeed(-0.5);
+		Robot.SHOOTER_SUBSYSTEM.speed(-0.5);
 	}
 	
 }

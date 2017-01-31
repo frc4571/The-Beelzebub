@@ -46,7 +46,7 @@ public class ShooterSubsystem extends Subsystem {
 		return shootersource.pidGet();
 		
 	}
-	public void setSpeed(double speed){
+	public void speed (double speed){
 	   this.shooterMotor.set(0.5);	
 		
 	}
@@ -61,9 +61,15 @@ public class ShooterSubsystem extends Subsystem {
 		rateController.setAbsoluteTolerance(0.05*Rategoal);
 		rateController.enable();
 	}
+	public PIDController getRateController(){
+		return this.rateController;
+		
+	}
 	public void stop(){
-		setSpeed(0.0);
+		this.shooterMotor.set(0.0);
+	}
+
 	}
 	
- }
+ 
 	

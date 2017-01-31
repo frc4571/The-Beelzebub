@@ -66,7 +66,7 @@ public class TankDriveSubsystem extends Subsystem {
 		this.distanceController = new PIDController(encoderKp, encoderKi, encoderKd, encoderAverage, distanceOutput);
 		
 		this.navX = new AHRS(SPI.Port.kMXP);
-		this.navX.setPIDSourceType(PIDSourceType.kRate);
+		this.navX.setPIDSourceType(PIDSourceType.kDisplacement);
 		this.angleOutput = new AngleOutput(robotDrive, distanceController);
 		this.turnController = new PIDController(navKp, navKi, navKd, navX, angleOutput); 
 	}

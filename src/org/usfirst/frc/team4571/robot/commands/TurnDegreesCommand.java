@@ -27,8 +27,13 @@ public class TurnDegreesCommand extends Command {
     protected void execute() {
     	SmartDashboard.putNumber("NavX Angle", Robot.TANK_DRIVE_SUBSYSTEM.getNavXAngle());
     	SmartDashboard.putNumber("Angle SetPoint", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getSetpoint());
-    	System.out.println("Left Speed ( Distance - Turn )" + (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() - Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
-    	System.out.println("Right Speed ( Distance + Turn )" + (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() + Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
+    	SmartDashboard.putNumber("Angle Average Error", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getAvgError());
+    	SmartDashboard.putNumber("Angle Error", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getError());
+
+    	SmartDashboard.putNumber("Turn Controller Get", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get());
+    	SmartDashboard.putNumber("Distance Controller Get", (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get()));
+    	SmartDashboard.putNumber("Left Speed ( Distance - Turn )", (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() - Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
+    	SmartDashboard.putNumber("Right Speed ( Distance + Turn )", (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() + Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
     }
 
     // Make this return true when this Command no longer needs to run execute()

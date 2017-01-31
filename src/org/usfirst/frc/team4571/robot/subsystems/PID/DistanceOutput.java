@@ -20,9 +20,6 @@ public class DistanceOutput implements PIDOutput {
 
 	@Override
 	public void pidWrite(double output) {
-//		this.frontLeftMotor.set(output);
-//		this.rearLeftMotor.set(output);
-//		this.frontRightMotor.set(output);
-//		this.rearRightMotor.set(output);
+		
 	}
 }

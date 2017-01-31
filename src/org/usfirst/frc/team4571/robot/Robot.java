@@ -33,8 +33,8 @@ public class Robot extends IterativeRobot {
 	
 	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();	
 	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();	
-	public static final DriveCommand DRIVE_STRAIGHT_COMMAND = new DriveCommand(1.0, 0.0);	
-	public static final TurnDegreesCommand TURN_RIGHT_90_DEGREES = new TurnDegreesCommand(-90.0);
+	public static final DriveCommand DRIVE_STRAIGHT_COMMAND = new DriveCommand(0.25, 45);	
+	public static final TurnDegreesCommand TURN_RIGHT_90_DEGREES = new TurnDegreesCommand(90.0);
 	public static final TurnDegreesCommand TURN_LEFT_90_DEGREES = new TurnDegreesCommand(90.0);
 	public static final TurnDegreesCommand TURN_180_DEGREES = new TurnDegreesCommand(180.0);
 	
@@ -45,8 +45,8 @@ public class Robot extends IterativeRobot {
      */
 	@Override
     public void robotInit() {
-		
-		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_LEFT_90_DEGREES);
+
+		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_RIGHT_90_DEGREES);
 		// initCamera();
     }
 	
@@ -92,6 +92,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
     	// Scheduler.getInstance().add(new TestVisionCommand());
+    	Scheduler.getInstance().add(DRIVE_STRAIGHT_COMMAND);
     }
 
     /**

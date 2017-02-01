@@ -5,11 +5,19 @@ public class RobotConstants {
 	public static final int FRONT_RIGHT_MOTOR_CHANNEL = 2;
 	public static final int REAR_LEFT_MOTOR_CHANNEL = 3;
 	public static final int REAR_RIGHT_MOTOR_CHANNEL = 4;
-	
+	public static final int MOTOR_CHANNEL = 5;
+	public static final int SHOOTER_MOTOR_CHANNEL = 6;
+
 	public static final int LEFT_JOYSTICK_PORT = 0;
 	public static final int RIGHT_JOYSTICK_PORT = 1;
 	public static final double JOYSTICK_TUNING_PARAMETER = 0.5;
-	
+
+  
+	public static final int ENCODER_CHANNEL_A = 9;
+	public static final int ENCODER_CHANNEL_B = 10;
+  
+	public static final int ROLLER_FOWARD_SOLENOID_CHANNEL = 0;
+	public static final int ROLLER_REVERSE_SOLENOID_CHANNEL = 1;
 	public static final int LEFT_ENCODER_CHANNEL_A = 0;
 	public static final int LEFT_ENCODER_CHANNEL_B = 1;
 	public static final int RIGHT_ENCODER_CHANNEL_A = 2;

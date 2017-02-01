@@ -1,7 +1,10 @@
 package org.usfirst.frc.team4571.robot;
 
+import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand;
+import org.usfirst.frc.team4571.robot.commands.IntakeCommand;
+import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
+import org.usfirst.frc.team4571.robot.subsystems.IntakeSubsystem;
 import java.util.ArrayList;
-
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
@@ -30,6 +33,9 @@ public class Robot extends IterativeRobot {
 	public static final RobotJoystick RIGHT_JOYSTICK = new RobotJoystick(RobotConstants.RIGHT_JOYSTICK_PORT);
 	
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
+
+	
+
 	
 	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();	
 	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();	
@@ -37,7 +43,9 @@ public class Robot extends IterativeRobot {
 	public static final TurnDegreesCommand TURN_RIGHT_90_DEGREES = new TurnDegreesCommand(90.0);
 	public static final TurnDegreesCommand TURN_LEFT_90_DEGREES = new TurnDegreesCommand(90.0);
 	public static final TurnDegreesCommand TURN_180_DEGREES = new TurnDegreesCommand(180.0);
-	
+	public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
+	public static final IntakeCommand INTAKE_COMMAND = new IntakeCommand();
+
 
     /**
      * This function is run when the robot is first started up and should be
@@ -105,8 +113,9 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
-//    	 Scheduler.getInstance().add(new TestVisionCommand());
-    	 Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
+    	Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
+    	Scheduler.getInstance().add(INTAKE_COMMAND);
+    	Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
     }
 
     /**
@@ -115,6 +124,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        Robot.LEFT_JOYSTICK.button4WhenPressed(INTAKE_COMMAND);
     }
     
     /**

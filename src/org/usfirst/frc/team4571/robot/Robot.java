@@ -1,6 +1,10 @@
 package org.usfirst.frc.team4571.robot;
 
 import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand;
+import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand2;
+import org.usfirst.frc.team4571.robot.commands.MillCommand;
+import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
+import org.usfirst.frc.team4571.robot.subsystems.MillSubsystem;
 import org.usfirst.frc.team4571.robot.commands.IntakeCommand;
 import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team4571.robot.subsystems.IntakeSubsystem;
@@ -20,6 +24,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionThread;
 
 /**
@@ -31,12 +36,7 @@ public class Robot extends IterativeRobot {
 
 	public static final RobotJoystick LEFT_JOYSTICK = new RobotJoystick(RobotConstants.LEFT_JOYSTICK_PORT);
 	public static final RobotJoystick RIGHT_JOYSTICK = new RobotJoystick(RobotConstants.RIGHT_JOYSTICK_PORT);
-	
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
-
-	
-
-	
 	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();	
 	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();	
 	public static final DriveCommand DRIVE_STRAIGHT_COMMAND = new DriveCommand(0.25, 45);	
@@ -45,15 +45,14 @@ public class Robot extends IterativeRobot {
 	public static final TurnDegreesCommand TURN_180_DEGREES = new TurnDegreesCommand(180.0);
 	public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
 	public static final IntakeCommand INTAKE_COMMAND = new IntakeCommand();
-
-
+	public static final MillSubsystem MILL_SUBSYSTEM = new MillSubsystem();
+	public static final MillCommand MILL_COMMAND = new MillCommand();
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
 	@Override
     public void robotInit() {
-
 		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_RIGHT_90_DEGREES);
 		// initCamera();
     }
@@ -101,6 +100,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
     	// Scheduler.getInstance().add(new TestVisionCommand());
     	Scheduler.getInstance().add(DRIVE_STRAIGHT_COMMAND);
+      Scheduler.getInstance().add(new MillCommand());
     }
 
     /**

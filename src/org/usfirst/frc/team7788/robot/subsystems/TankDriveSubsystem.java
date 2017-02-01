@@ -1,8 +1,8 @@
-package org.usfirst.frc.team4571.robot.subsystems;
+package org.usfirst.frc.team7788.robot.subsystems;
 
-import org.usfirst.frc.team4571.robot.RobotConstants;
-import org.usfirst.frc.team4571.robot.subsystems.PID.DistanceOutput;
-import org.usfirst.frc.team4571.robot.subsystems.sensors.EncoderAverage;
+import org.usfirst.frc.team7788.robot.RobotConstants;
+import org.usfirst.frc.team7788.robot.subsystems.PID.DistanceOutput;
+import org.usfirst.frc.team7788.robot.subsystems.sensors.EncoderAverage;
 
 import com.ctre.CANTalon;
 

@@ -1,18 +1,17 @@
-package org.usfirst.frc.team4571.robot;
+package org.usfirst.frc.team7788.robot;
 
-import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand2;
-import org.usfirst.frc.team4571.robot.commands.AutonomousShooter;
-import org.usfirst.frc.team4571.robot.commands.GearServoCommand;
-import org.usfirst.frc.team4571.robot.commands.Gearpneumaticscommand;
-import org.usfirst.frc.team4571.robot.commands.ShooterCommand;
-import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
-import org.usfirst.frc.team4571.robot.subsystems.GearSubsystem;
-import org.usfirst.frc.team4571.robot.subsystems.ShooterSubsystem;
-import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
+import org.usfirst.frc.team7788.robot.commands.AutonomousDriveCommand2;
+import org.usfirst.frc.team7788.robot.commands.AutonomousShooter;
+import org.usfirst.frc.team7788.robot.commands.GearServoCommand;
+import org.usfirst.frc.team7788.robot.commands.Gearpneumaticscommand;
+import org.usfirst.frc.team7788.robot.commands.ShooterCommand;
+import org.usfirst.frc.team7788.robot.commands.TankDriveCommand;
+import org.usfirst.frc.team7788.robot.subsystems.GearSubsystem;
+import org.usfirst.frc.team7788.robot.subsystems.ShooterSubsystem;
+import org.usfirst.frc.team7788.robot.subsystems.TankDriveSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
@@ -80,9 +79,9 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
     	
-    	Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
-    	Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
-    	Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
+    	//Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
+    	//Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
+    	//Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
     }
 
     /**
@@ -91,9 +90,9 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        Robot.LEFT_JOYSTICK.button1WhenPressed(GEAR_PNEMATICS_COMMAND);
-        Robot.LEFT_JOYSTICK.button2WhenPressed(SHOOTER_COMMAND);
-        Robot.LEFT_JOYSTICK.button3WhenPressed(GEAR_SERVO_COMMAND);
+       // Robot.LEFT_JOYSTICK.button1WhenPressed(GEAR_PNEMATICS_COMMAND);
+       // Robot.LEFT_JOYSTICK.button2WhenPressed(SHOOTER_COMMAND);
+        //Robot.LEFT_JOYSTICK.button3WhenPressed(GEAR_SERVO_COMMAND);
     }
     
     /**

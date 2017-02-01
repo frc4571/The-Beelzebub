@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4571.robot.subsystems.sensors;
+package org.usfirst.frc.team7788.robot.subsystems.sensors;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDSource;

@@ -1,13 +1,23 @@
 package org.usfirst.frc.team4571.robot;
 
-import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand;
-import org.usfirst.frc.team4571.robot.commands.AutonomousDriveCommand2;
-import org.usfirst.frc.team4571.robot.commands.TankDriveCommand;
-import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
+import java.util.ArrayList;
 
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team4571.robot.commands.TurnDegreesCommand;
+import org.usfirst.frc.team4571.robot.commands.autonomous.DriveCommand;
+import org.usfirst.frc.team4571.robot.commands.autonomous.RunFor30Minutes;
+import org.usfirst.frc.team4571.robot.commands.teleOP.TankDriveCommand;
+import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
+import org.usfirst.frc.team4571.robot.subsystems.vision.FindGearPegPipeline;
+
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 
 /**
  * 
@@ -20,8 +30,14 @@ public class Robot extends IterativeRobot {
 	public static final RobotJoystick RIGHT_JOYSTICK = new RobotJoystick(RobotConstants.RIGHT_JOYSTICK_PORT);
 	
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
-	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();
-	public static final AutonomousDriveCommand2 AUTO_DRIVE_COMMAND2 = new AutonomousDriveCommand2();
+	
+	public static final TankDriveCommand TANK_DRIVE_COMMAND = new TankDriveCommand();	
+	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();	
+	public static final DriveCommand DRIVE_STRAIGHT_COMMAND = new DriveCommand(0.25, 45);	
+	public static final TurnDegreesCommand TURN_RIGHT_90_DEGREES = new TurnDegreesCommand(90.0);
+	public static final TurnDegreesCommand TURN_LEFT_90_DEGREES = new TurnDegreesCommand(90.0);
+	public static final TurnDegreesCommand TURN_180_DEGREES = new TurnDegreesCommand(180.0);
+	
 
     /**
      * This function is run when the robot is first started up and should be
@@ -29,7 +45,26 @@ public class Robot extends IterativeRobot {
      */
 	@Override
     public void robotInit() {
+
+		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_RIGHT_90_DEGREES);
+		// initCamera();
     }
+	
+	private void initCamera() {
+		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(320, 240);
+
+		VisionThread visionThread = new VisionThread(camera, new FindGearPegPipeline(), pipeline -> {
+			ArrayList<MatOfPoint> keyPoints = pipeline.filterContoursOutput();
+			if (keyPoints != null) {
+				for (MatOfPoint keyPoint : keyPoints) {
+					Rect rect = Imgproc.boundingRect(keyPoint);
+					System.err.println("Found rect at (" + rect.x + ", " + rect.y + ") H: " + rect.height + ", W: " + rect.width);
+				}
+			}
+		});
+		visionThread.start();		
+	}
 	
 	/**
      * This function is called once each time the robot enters Disabled mode.
@@ -38,6 +73,8 @@ public class Robot extends IterativeRobot {
      */
     @Override
     public void disabledInit(){
+    	Robot.TANK_DRIVE_SUBSYSTEM.disableBoth();
+    	Robot.TANK_DRIVE_SUBSYSTEM.initialize();
     }
 	
     @Override
@@ -54,7 +91,8 @@ public class Robot extends IterativeRobot {
 	 */
     @Override
     public void autonomousInit() {
-    	Scheduler.getInstance().add(AUTO_DRIVE_COMMAND2);
+    	// Scheduler.getInstance().add(new TestVisionCommand());
+    	Scheduler.getInstance().add(DRIVE_STRAIGHT_COMMAND);
     }
 
     /**
@@ -67,7 +105,8 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
-    	Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
+//    	 Scheduler.getInstance().add(new TestVisionCommand());
+    	 Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
     }
 
     /**

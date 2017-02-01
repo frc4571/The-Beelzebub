@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class RobotJoystick extends Joystick {
-		private Button button1, button2, button3, button4;
+
+    private Button button1, button2, button3, button4;
 		double tuningParameter;
 		
 		public RobotJoystick(int port) {
@@ -57,6 +58,11 @@ public class RobotJoystick extends Joystick {
 			this.button4.whenReleased(command);
 			return this;
 		}
+
+    public RobotJoystick button4toggleWhenPressed(Command command){
+      this.button4.toggleWhenPressed(command);
+      return this;
+    }
 		
 		public Button getButton1() {
 			return this.button1;	
@@ -98,11 +104,10 @@ public class RobotJoystick extends Joystick {
 		 * 			  When tuningParameter  = 1, result = originalValue ^3 i.e. very sensitive
 		 * @return value corrected for sensitivity
 		 */
-		public double adjustForSensitivity( double originalValue, double tuningParameter ){
-			if( tuningParameter == 0 ){
+		public double adjustForSensitivity( double originalValue, double tuningParameter ) {
+			if( tuningParameter == 0 ) {
 				tuningParameter = RobotConstants.JOYSTICK_TUNING_PARAMETER;
 			}
 			return ( ( Math.pow(originalValue, 3) * tuningParameter ) + ( ( 1 - tuningParameter ) * originalValue ) );
 		}
-	}
-		
+}

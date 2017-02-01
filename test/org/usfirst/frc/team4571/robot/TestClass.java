@@ -9,20 +9,17 @@ import org.junit.Test;
  *
  */
 public class TestClass {
-	
+
 	@Test
 	public void testIfTrue(){
 		Assert.assertTrue(4<5);
 	}
 	//How to make epoch time to human time
 	public static void main( String...strings ){
-		TestClass testClass = new TestClass();
 		long startTime = System.currentTimeMillis();
 		long finishTime = 10000;
 		while( System.currentTimeMillis() - startTime <= finishTime ){
 			System.out.println("Printing time = " + System.currentTimeMillis() );
 		}
-		
 	}
-	
 }

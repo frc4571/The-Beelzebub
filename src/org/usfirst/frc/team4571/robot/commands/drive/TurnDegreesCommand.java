@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4571.robot.commands;
+package org.usfirst.frc.team4571.robot.commands.drive;
 
 import org.usfirst.frc.team4571.robot.Robot;
 
@@ -38,7 +38,7 @@ public class TurnDegreesCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.TANK_DRIVE_SUBSYSTEM.isAngleFinished();
+        return Robot.TANK_DRIVE_SUBSYSTEM.isTurnFinished();
     }
 
     // Called once after isFinished returns true

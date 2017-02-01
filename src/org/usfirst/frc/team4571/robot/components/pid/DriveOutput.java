@@ -1,15 +1,15 @@
-package org.usfirst.frc.team4571.robot.subsystems.PID;
+package org.usfirst.frc.team4571.robot.components.pid;
 
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.RobotDrive;
 
-public class AngleOutput implements PIDOutput {
+public class DriveOutput implements PIDOutput {
 	
 	private RobotDrive robotDrive;
 	private PIDController distanceController;
 	
-	public AngleOutput(RobotDrive robotDrive, PIDController distanceController) {
+	public DriveOutput(RobotDrive robotDrive, PIDController distanceController) {
 		this.robotDrive = robotDrive;
 		this.distanceController = distanceController;
 	}

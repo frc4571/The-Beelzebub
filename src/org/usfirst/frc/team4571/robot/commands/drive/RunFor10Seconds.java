@@ -1,11 +1,13 @@
-package org.usfirst.frc.team4571.robot.commands.autonomous;
+package org.usfirst.frc.team4571.robot.commands.drive;
 
 import org.usfirst.frc.team4571.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- * Command that runs the wheels for 10 seconds forward, then stops for 2 seconds,
- *  then run backwards for 5 seconds
+ * Command that runs the wheels for 
+ * - 10 seconds forward, 
+ * - then stops for 2 seconds,
+ * - then run backwards for 5 seconds
  */
 public class RunFor10Seconds extends Command {
 	public boolean driveStop = false;

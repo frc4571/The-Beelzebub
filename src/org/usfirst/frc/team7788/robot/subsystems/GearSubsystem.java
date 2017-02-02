@@ -12,7 +12,7 @@ public class GearSubsystem extends Subsystem {
 
 	private static final DoubleSolenoid GearSolenoid = new DoubleSolenoid (0,1);
 	private static final Compressor compressor = new Compressor (0);
-	Servo gearServo = new Servo(0);
+	private static Servo gearServo = new Servo(0);
 
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
@@ -29,9 +29,12 @@ public class GearSubsystem extends Subsystem {
 		pushOut();
 		
 	}
-	public void setSpeed(double Speed){
-		this.gearServo.set(0.5);
+	
+	public void setServoRotation(double angle){
+//		this.gearServo.set(0.5);
+		this.gearServo.setAngle(angle);
 	}
+	
 	public  void pushOut() {
 		// TODO Auto-generated method stub
 		GearSolenoid.set(DoubleSolenoid.Value.kForward);
@@ -50,6 +53,11 @@ public class GearSubsystem extends Subsystem {
 }
 	
 	
+	
+      
+	
+	
+
 	
       
 	

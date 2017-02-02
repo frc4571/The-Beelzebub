@@ -1,13 +1,10 @@
 package org.usfirst.frc.team7788.robot;
 
 import org.usfirst.frc.team7788.robot.commands.AutonomousDriveCommand2;
-import org.usfirst.frc.team7788.robot.commands.AutonomousShooter;
 import org.usfirst.frc.team7788.robot.commands.GearServoCommand;
 import org.usfirst.frc.team7788.robot.commands.Gearpneumaticscommand;
-import org.usfirst.frc.team7788.robot.commands.ShooterCommand;
 import org.usfirst.frc.team7788.robot.commands.TankDriveCommand;
 import org.usfirst.frc.team7788.robot.subsystems.GearSubsystem;
-import org.usfirst.frc.team7788.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team7788.robot.subsystems.TankDriveSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -29,10 +26,8 @@ public class Robot extends IterativeRobot {
 	public static final AutonomousDriveCommand2 AUTO_DRIVE_COMMAND2 = new AutonomousDriveCommand2();
 	public static final GearSubsystem GEAR_SUBSYSTEM = new GearSubsystem();
 	public static final Gearpneumaticscommand GEAR_PNEMATICS_COMMAND = new Gearpneumaticscommand();
-	public static final ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem (); 
-	public static final ShooterCommand SHOOTER_COMMAND = new ShooterCommand ();
 	public static final GearServoCommand GEAR_SERVO_COMMAND = new GearServoCommand();
-	public static final AutonomousShooter AUTONOMOUS_SHOOTER = new AutonomousShooter();
+	
 
     /**
      * This function is run when the robot is first started up and should be
@@ -64,7 +59,7 @@ public class Robot extends IterativeRobot {
 	 */
     @Override
     public void autonomousInit() {
-    	Scheduler.getInstance().add(AUTONOMOUS_SHOOTER);
+    	
     	Scheduler.getInstance().add(AUTO_DRIVE_COMMAND2);
     }
 
@@ -79,9 +74,10 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
     	
-    	//Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
-    	//Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
-    	//Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
+    	Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
+    	
+		Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
+
     }
 
     /**

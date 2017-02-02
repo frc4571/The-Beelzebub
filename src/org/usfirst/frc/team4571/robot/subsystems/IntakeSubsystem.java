@@ -49,7 +49,7 @@ public class IntakeSubsystem extends Subsystem {
 		this.intakeMotor.set(speed);
 	}
 	
-	public void stopRoller(double speed) {
+	public void stopRoller() {
 		this.intakeMotor.set(0);
 	}
 }

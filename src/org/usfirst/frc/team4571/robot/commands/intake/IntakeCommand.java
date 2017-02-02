@@ -19,14 +19,14 @@ public class IntakeCommand extends Command {
 	
 	protected void execute() {
 		if( isRollerOut ) {
+			Robot.INTAKE_SUBSYSTEM.stopRoller();
 			Robot.INTAKE_SUBSYSTEM.in();
-			isRollerOut = false;
-		}
-		else{
+		} else{
 			Robot.INTAKE_SUBSYSTEM.out();
+			//TODO : We shouldnt have to set a constant speed here. This should be passed in from somewhere
 			Robot.INTAKE_SUBSYSTEM.setSpeed(.5);
-			isRollerOut = true;
 		}
+		isRollerOut = !isRollerOut;
 	}
 	
 	protected boolean isFinished() {
@@ -34,7 +34,7 @@ public class IntakeCommand extends Command {
 	}
 	
 	protected void end() {
-		Robot.INTAKE_SUBSYSTEM.stopRoller(0);
+		Robot.INTAKE_SUBSYSTEM.stopRoller();
 	}
 
 	protected void interrupted() {}

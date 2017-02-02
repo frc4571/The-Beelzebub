@@ -37,4 +37,10 @@ public class RobotConstants {
 	
 	// Shooter subsystem
 	public static final int SHOOTER_MOTOR_CHANNEL = 6;
+	
+	// Gear subsystem
+	public static final int GEAR_FORWARD_CHANNEL = 0;
+	public static final int GEAR_REVERSE_CHANNEL = 1;
+	public static final int GEAR_SERVO_CHANNEL = 0;
+	public static final int GEAR_COMPRESSOR_MODULE = 0;
 }

@@ -90,7 +90,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
-		Scheduler.getInstance().add(INTAKE_COMMAND);
+		//Scheduler.getInstance().add(INTAKE_COMMAND);
 		Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
 		Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
 		//TODO : Do we need to mill command to be added here?

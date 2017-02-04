@@ -16,6 +16,6 @@ public class DriveOutput implements PIDOutput {
 	
 	@Override
 	public void pidWrite(double output) {
-		this.robotDrive.tankDrive(distanceController.get() + output, distanceController.get() - output);
+		this.robotDrive.tankDrive(distanceController.get(), distanceController.get());
 	}
 }

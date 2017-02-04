@@ -6,11 +6,9 @@ import org.usfirst.frc.team4571.robot.commands.drive.TeleopDriveCommand;
 import org.usfirst.frc.team4571.robot.commands.drive.TurnDegreesCommand;
 import org.usfirst.frc.team4571.robot.commands.gear.GearPneumaticsCommand;
 import org.usfirst.frc.team4571.robot.commands.gear.GearServoCommand;
-import org.usfirst.frc.team4571.robot.commands.intake.IntakeCommand;
 import org.usfirst.frc.team4571.robot.commands.mill.MillCommand;
 import org.usfirst.frc.team4571.robot.commands.vision.TestVisionCommand;
 import org.usfirst.frc.team4571.robot.subsystems.GearSubsystem;
-import org.usfirst.frc.team4571.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.MillSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
 
@@ -31,7 +29,7 @@ public class Robot extends IterativeRobot {
 
 	// Subsystems
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
-	public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
+	//public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
 	public static final MillSubsystem MILL_SUBSYSTEM = new MillSubsystem();
 	public static final GearSubsystem GEAR_SUBSYSTEM = new GearSubsystem();
 
@@ -39,13 +37,13 @@ public class Robot extends IterativeRobot {
 	// -- Drive -- //
 	public static final TeleopDriveCommand TANK_DRIVE_COMMAND = new TeleopDriveCommand();	
 	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();	
-	public static final AutoDriveCommand DRIVE_STRAIGHT_COMMAND = new AutoDriveCommand(0.25, 45);	
+	public static final AutoDriveCommand DRIVE_STRAIGHT_COMMAND = new AutoDriveCommand(24, 0.0);	
 	public static final TurnDegreesCommand TURN_RIGHT_90_DEGREES = new TurnDegreesCommand(90.0);
 	public static final TurnDegreesCommand TURN_LEFT_90_DEGREES = new TurnDegreesCommand(90.0);
 	public static final TurnDegreesCommand TURN_180_DEGREES = new TurnDegreesCommand(180.0);
 
 	// -- Intake -- //
-	public static final IntakeCommand INTAKE_COMMAND = new IntakeCommand();
+//	public static final IntakeCommand INTAKE_COMMAND = new IntakeCommand();
 
 	// -- Mill -- //
 	public static final MillCommand MILL_COMMAND = new MillCommand();
@@ -77,7 +75,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		Scheduler.getInstance().add(TEST_VISION_COMMAND);
+//		Scheduler.getInstance().add(TEST_VISION_COMMAND);
 		Scheduler.getInstance().add(DRIVE_STRAIGHT_COMMAND);
 		Scheduler.getInstance().add(MILL_COMMAND);
 	}
@@ -90,7 +88,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
-		Scheduler.getInstance().add(INTAKE_COMMAND);
+		//Scheduler.getInstance().add(INTAKE_COMMAND);
 		Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
 		Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
 		//TODO : Do we need to mill command to be added here?

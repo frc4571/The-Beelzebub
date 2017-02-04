@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -26,9 +27,9 @@ public class TankDriveSubsystem extends Subsystem {
 
 	private Encoder leftEncoder, rightEncoder;
 	
-	private double encoderKp = 0.05;
-	private double encoderKi = 10.0;
-	private double encoderKd = 8.0;
+	private double encoderKp = 0.1;
+	private double encoderKi = 0.0;
+	private double encoderKd = 0.0;
 
 	private final EncoderAverage encoderAverage;
 	private final PIDController distanceController;
@@ -39,7 +40,7 @@ public class TankDriveSubsystem extends Subsystem {
 	
 	private final AHRS navX;
 	private final DriveOutput angleOutput;
-	private final PIDController turnController;
+	//private final PIDController turnController;
 
 	public TankDriveSubsystem() {
 		this.frontLeftMotor = new CANTalon(RobotConstants.DRIVE_FRONT_LEFT_MOTOR_CHANNEL);
@@ -51,8 +52,8 @@ public class TankDriveSubsystem extends Subsystem {
 
 		this.leftEncoder = new Encoder(RobotConstants.LEFT_DRIVE_ENCODER_CHANNEL_A, RobotConstants.LEFT_DRIVE_ENCODER_CHANNEL_B, true, EncodingType.k4X);
 		this.rightEncoder = new Encoder(RobotConstants.RIGHT_DRIVE_ENCODER_CHANNEL_A, RobotConstants.RIGHT_DRIVE_ENCODER_CHANNEL_B, false, EncodingType.k4X);
-		this.leftEncoder.setDistancePerPulse(RobotConstants.DISTANCE_PER_PULSE);
-		this.rightEncoder.setDistancePerPulse(RobotConstants.DISTANCE_PER_PULSE);
+		this.leftEncoder.setDistancePerPulse(RobotConstants.DISTANCE_TRAVELED_PER_PULSE);
+		this.rightEncoder.setDistancePerPulse(RobotConstants.DISTANCE_TRAVELED_PER_PULSE);
 
 		this.encoderAverage = new EncoderAverage(leftEncoder, rightEncoder);
 		this.encoderAverage.setPIDSourceType(PIDSourceType.kDisplacement);
@@ -61,13 +62,15 @@ public class TankDriveSubsystem extends Subsystem {
 			@Override
 			public void pidWrite(double paramDouble) {
 				// Do nothing. this.angleOutput will take care of controlling the robot.
+				System.out.println( "Distance Controller pidwrite = " + paramDouble );
+				robotDrive.tankDrive(paramDouble,paramDouble);
 			}
 		});
 		
 		this.navX = new AHRS(SPI.Port.kMXP);
 		this.navX.setPIDSourceType(PIDSourceType.kDisplacement);
 		this.angleOutput = new DriveOutput(robotDrive, distanceController);
-		this.turnController = new PIDController(navKp, navKi, navKd, navX, angleOutput); 
+		//this.turnController = new PIDController(navKp, navKi, navKd, navX, null); 
 	}
 	
 	public void initDefaultCommand() {}
@@ -75,8 +78,17 @@ public class TankDriveSubsystem extends Subsystem {
 	public void initialize() {
 		this.encoderAverage.reset();
 		this.navX.reset();
+		SmartDashboard.putData("PID Controller",this.distanceController);
 	}
 	
+	public Encoder getLeftEncoder() {
+		return this.leftEncoder;
+	}
+	
+	public Encoder getRightEncoder() {
+		return this.rightEncoder;
+	}
+		
 	public double getLeftEncoderDistance() {
 		return this.leftEncoder.getDistance();
 	}
@@ -94,35 +106,36 @@ public class TankDriveSubsystem extends Subsystem {
 	}
 
 	public boolean isBothFinished() {
-		return distanceController.onTarget() && turnController.onTarget();
+    	System.out.println("Distance Controller onTarget = " + distanceController.onTarget());
+		return distanceController.onTarget() ;//&& turnController.onTarget();
 	}
 	
-	public boolean isTurnFinished() {
-		return turnController.onTarget();
-	}
+//	public boolean isTurnFinished() {
+//		return turnController.onTarget();
+//	}
 
 	public void setBothPIDParameters(double distanceSetPoint, double angleSetPoint) {
 		distanceController.reset();
-		turnController.reset();
+//		turnController.reset();
 		
 		distanceController.setOutputRange(-0.6, 0.6);
 		distanceController.setSetpoint(distanceSetPoint);
 		distanceController.setAbsoluteTolerance(0.1 * distanceSetPoint);
 		
-		turnController.setOutputRange(-0.6, 0.6);
-		turnController.setSetpoint(angleSetPoint);
-		turnController.setAbsoluteTolerance(2.0f);
+//		turnController.setOutputRange(-0.6, 0.6);
+//		turnController.setSetpoint(angleSetPoint);
+//		turnController.setAbsoluteTolerance(2.0f);
 		
 		distanceController.enable();
-		turnController.enable();
+		//turnController.enable();
 	}
 	
 	public void setAnglePIDParameter(double angleSetPoint) {
-		turnController.reset();		
-		turnController.setOutputRange(-0.6, 0.6);
-		turnController.setSetpoint(angleSetPoint);
-		turnController.setAbsoluteTolerance(2.0f);
-		turnController.enable();
+//		turnController.reset();		
+//		turnController.setOutputRange(-0.6, 0.6);
+//		turnController.setSetpoint(angleSetPoint);
+//		turnController.setAbsoluteTolerance(2.0f);
+//		turnController.enable();
 	}
 	
 	// Teleop drive
@@ -138,12 +151,12 @@ public class TankDriveSubsystem extends Subsystem {
 		return this.distanceController;
 	}
 	
-	public PIDController getTurnController() {
-		return this.turnController;
-	}
+//	public PIDController getTurnController() {
+//		return this.turnController;
+//	}
 	
 	public void disableBoth() {
 		this.distanceController.disable();
-		this.turnController.disable();
+//		this.turnController.disable();
 	}
 }

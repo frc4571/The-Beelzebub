@@ -26,29 +26,30 @@ public class TurnDegreesCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	SmartDashboard.putNumber("NavX Angle", Robot.TANK_DRIVE_SUBSYSTEM.getNavXAngle());
-    	SmartDashboard.putNumber("Angle SetPoint", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getSetpoint());
-    	SmartDashboard.putNumber("Angle Average Error", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getAvgError());
-    	SmartDashboard.putNumber("Angle Error", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getError());
-
-    	SmartDashboard.putNumber("Turn Controller Get", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get());
+//    	SmartDashboard.putNumber("Angle SetPoint", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getSetpoint());
+//    	SmartDashboard.putNumber("Angle Average Error", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getAvgError());
+//    	SmartDashboard.putNumber("Angle Error", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getError());
+//
+//    	SmartDashboard.putNumber("Turn Controller Get", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get());
     	SmartDashboard.putNumber("Distance Controller Get", (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get()));
-    	SmartDashboard.putNumber("Left Speed ( Distance - Turn )", (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() - Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
-    	SmartDashboard.putNumber("Right Speed ( Distance + Turn )", (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() + Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
+//    	SmartDashboard.putNumber("Left Speed ( Distance - Turn )", (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() - Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
+//    	SmartDashboard.putNumber("Right Speed ( Distance + Turn )", (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() + Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.TANK_DRIVE_SUBSYSTEM.isTurnFinished();
+//        return Robot.TANK_DRIVE_SUBSYSTEM.isTurnFinished();
+    	return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().disable();
+    	//Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().disable();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().disable();
+    	//Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().disable();
     }
 }

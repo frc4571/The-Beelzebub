@@ -20,9 +20,9 @@ public class IntakeCommand extends Command {
 	protected void execute() {
 		if( isRollerOut ) {
 			Robot.INTAKE_SUBSYSTEM.stopRoller();
-			Robot.INTAKE_SUBSYSTEM.in();
+			Robot.INTAKE_SUBSYSTEM.pushIn();
 		} else{
-			Robot.INTAKE_SUBSYSTEM.out();
+			Robot.INTAKE_SUBSYSTEM.pushOut();
 			//TODO : We shouldnt have to set a constant speed here. This should be passed in from somewhere
 			Robot.INTAKE_SUBSYSTEM.setSpeed(.5);
 		}

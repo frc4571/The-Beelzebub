@@ -30,14 +30,14 @@ public class IntakeSubsystem extends Subsystem {
 	public void initDefaultCommand() {}
 	
 	public void initialize() {
-		out();
+		pushIn();
 	}
 	
-	public void out(){
+	public void pushOut(){
 		this.rollerSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 	
-	public void in(){
+	public void pushIn(){
 		this.rollerSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 	

@@ -1,22 +1,18 @@
 package org.usfirst.frc.team4571.robot;
 
-import org.usfirst.frc.team4571.robot.commands.drive.AutoDriveCommand;
-import org.usfirst.frc.team4571.robot.commands.drive.RunFor30Minutes;
-import org.usfirst.frc.team4571.robot.commands.drive.TeleopDriveCommand;
-import org.usfirst.frc.team4571.robot.commands.drive.TurnDegreesCommand;
-import org.usfirst.frc.team4571.robot.commands.gear.GearPneumaticsCommand;
-import org.usfirst.frc.team4571.robot.commands.gear.GearServoCommand;
-import org.usfirst.frc.team4571.robot.commands.intake.IntakeCommand;
-import org.usfirst.frc.team4571.robot.commands.mill.MillCommand;
-import org.usfirst.frc.team4571.robot.commands.vision.TestVisionCommand;
-import org.usfirst.frc.team4571.robot.subsystems.GearSubsystem;
-import org.usfirst.frc.team4571.robot.subsystems.IntakeSubsystem;
-import org.usfirst.frc.team4571.robot.subsystems.MillSubsystem;
-import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
+import java.util.ArrayList;
 
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
+import org.usfirst.frc.team4571.robot.components.vision.FindGearPegPipeline;
+
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoCamera.WhiteBalance;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.vision.VisionThread;
 
 /**
  * 
@@ -30,13 +26,14 @@ public class Robot extends IterativeRobot {
 	public static final RobotJoystick RIGHT_JOYSTICK = new RobotJoystick(RobotConstants.RIGHT_JOYSTICK_PORT);
 
 	// Subsystems
-	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
-	public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
-	public static final MillSubsystem MILL_SUBSYSTEM = new MillSubsystem();
-	public static final GearSubsystem GEAR_SUBSYSTEM = new GearSubsystem();
+	//public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
+	//public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
+	//public static final MillSubsystem MILL_SUBSYSTEM = new MillSubsystem();
+	//public static final GearSubsystem GEAR_SUBSYSTEM = new GearSubsystem();
 
 	// Commands
 	// -- Drive -- //
+	/*
 	public static final TeleopDriveCommand TANK_DRIVE_COMMAND = new TeleopDriveCommand();	
 	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();	
 	public static final AutoDriveCommand DRIVE_STRAIGHT_COMMAND = new AutoDriveCommand(0.25, 45);	
@@ -56,49 +53,101 @@ public class Robot extends IterativeRobot {
 	// -- Gear -- //
 	public static final GearPneumaticsCommand GEAR_PNEMATICS_COMMAND = new GearPneumaticsCommand();
 	public static final GearServoCommand GEAR_SERVO_COMMAND = new GearServoCommand();
+	*/
  
 	@Override
 	public void robotInit() {
 		// TODO : Should this be in teleop init?
-		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_RIGHT_90_DEGREES);
+		// Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_RIGHT_90_DEGREES);
+		//  UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();		
+
+		UsbCamera camera = new UsbCamera("cam0", 0);
+		// UsbCamera camera = CameraServer.getInstance();
+		camera.setResolution(320, 240);
+		camera.setBrightness(5);
+		camera.setExposureManual(5);
+		camera.setWhiteBalanceManual(WhiteBalance.kFixedIndoor);
+		CameraServer.getInstance().startAutomaticCapture(camera);
+		
+		double f = 320 / (2 * 0.577);
+		double r = 57.2958;
+		
+		VisionThread visionThread = new VisionThread(camera, new FindGearPegPipeline(), pipeline -> {
+			try {
+				ArrayList<MatOfPoint> keyPoints = pipeline.findContoursOutput();
+				if (pipeline.findContoursOutput().size() > 0) {
+					System.err.println("Found " + pipeline.findContoursOutput().size() + " contours");
+				}
+				if (pipeline.filterContoursOutput().size() > 0) {
+					System.err.println("Filtered " + pipeline.filterContoursOutput().size() + " contours");
+				}
+				if (keyPoints != null) {
+					if (keyPoints.size() > 0) {
+						System.err.println("Found " + keyPoints.size() + " contours");
+					}
+					for (MatOfPoint keyPoint : keyPoints) {
+						Rect rect = Imgproc.boundingRect(keyPoint);
+						double d = 2 * 320 / (2 *rect.width * 0.557);
+						System.err.println("Found rect at (" + rect.x + ", " + rect.y + ") H: " + rect.height + ", W: " + rect.width);
+						System.err.println("Distance: " + Math.round(d) + " inches");
+						double dx = Math.atan((rect.x - 160) / f);
+						System.err.println("DX: " + dx * r);
+					}
+				}
+				//System.err.println("VisionThread finished processing");
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
+		});
+		visionThread.start();
 	}
 
 	@Override
 	public void disabledInit(){
-		Robot.TANK_DRIVE_SUBSYSTEM.disableBoth();
-		Robot.TANK_DRIVE_SUBSYSTEM.initialize();
+		// Robot.TANK_DRIVE_SUBSYSTEM.disableBoth();
+		// Robot.TANK_DRIVE_SUBSYSTEM.initialize();
 	}
 
 	@Override
 	public void disabledPeriodic() {
+		/*
 		Scheduler.getInstance().removeAll();
 		Scheduler.getInstance().run();
+		*/
 	}
 
 	@Override
 	public void autonomousInit() {
+		/*
 		Scheduler.getInstance().add(TEST_VISION_COMMAND);
 		Scheduler.getInstance().add(DRIVE_STRAIGHT_COMMAND);
 		Scheduler.getInstance().add(MILL_COMMAND);
+		*/
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
+		// Scheduler.getInstance().run();
 	}
 
 	@Override
 	public void teleopInit() {
-		Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
-		Scheduler.getInstance().add(INTAKE_COMMAND);
-		Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
-		Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
+		// Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
+		// Scheduler.getInstance().add(INTAKE_COMMAND);
+		// Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
+		// Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
+		// Scheduler.getInstance().add(TEST_VISION_COMMAND);
 		//TODO : Do we need to mill command to be added here?
 	}
 
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
+		// Scheduler.getInstance().run();
+	}
+	
+	@Override
+	public void robotPeriodic() {
+		
 	}
 
 	@Override

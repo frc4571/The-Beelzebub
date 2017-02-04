@@ -21,6 +21,8 @@ public class FindGearPegPipeline implements VisionPipeline {
 
 	//Outputs
 	private Mat resizeImageOutput = new Mat();
+	private Mat rgbThresholdOutput = new Mat();
+	private Mat maskOutput = new Mat();
 	private Mat hslThresholdOutput = new Mat();
 	private Mat cvErodeOutput = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
@@ -41,11 +43,23 @@ public class FindGearPegPipeline implements VisionPipeline {
 		int resizeImageInterpolation = Imgproc.INTER_CUBIC;
 		resizeImage(resizeImageInput, resizeImageWidth, resizeImageHeight, resizeImageInterpolation, resizeImageOutput);
 
+		// Step RGB_Threshold0:
+		Mat rgbThresholdInput = resizeImageOutput;
+		double[] rgbThresholdRed = {0.0, 150.0};
+		double[] rgbThresholdGreen = {100, 255.0};
+		double[] rgbThresholdBlue = {0.0, 150.0};
+		rgbThreshold(rgbThresholdInput, rgbThresholdRed, rgbThresholdGreen, rgbThresholdBlue, rgbThresholdOutput);
+
+		// Step Mask0:
+		Mat maskInput = resizeImageOutput;
+		Mat maskMask = rgbThresholdOutput;
+		mask(maskInput, maskMask, maskOutput);
+
 		// Step HSL_Threshold0:
-		Mat hslThresholdInput = resizeImageOutput;
-		double[] hslThresholdHue = {37.230215827338135, 180.0};
-		double[] hslThresholdSaturation = {144.46942446043164, 255.0};
-		double[] hslThresholdLuminance = {213.2643884892086, 255.0};
+		Mat hslThresholdInput = maskOutput;
+		double[] hslThresholdHue = {0.0, 255};
+		double[] hslThresholdSaturation = {0.0, 255};
+		double[] hslThresholdLuminance = {30, 255.0};
 		hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
 
 		// Step CV_erode0:
@@ -65,9 +79,9 @@ public class FindGearPegPipeline implements VisionPipeline {
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
 		double filterContoursMinArea = 50.0;
-		double filterContoursMinPerimeter = 50.0;
+		double filterContoursMinPerimeter = 40.0;
 		double filterContoursMinWidth = 0.0;
-		double filterContoursMaxWidth = 1000;
+		double filterContoursMaxWidth = 0;
 		double filterContoursMinHeight = 0;
 		double filterContoursMaxHeight = 1000;
 		double[] filterContoursSolidity = {0, 100};
@@ -85,6 +99,22 @@ public class FindGearPegPipeline implements VisionPipeline {
 	 */
 	public Mat resizeImageOutput() {
 		return resizeImageOutput;
+	}
+
+	/**
+	 * This method is a generated getter for the output of a RGB_Threshold.
+	 * @return Mat output from RGB_Threshold.
+	 */
+	public Mat rgbThresholdOutput() {
+		return rgbThresholdOutput;
+	}
+
+	/**
+	 * This method is a generated getter for the output of a Mask.
+	 * @return Mat output from Mask.
+	 */
+	public Mat maskOutput() {
+		return maskOutput;
 	}
 
 	/**
@@ -131,6 +161,33 @@ public class FindGearPegPipeline implements VisionPipeline {
 	private void resizeImage(Mat input, double width, double height,
 		int interpolation, Mat output) {
 		Imgproc.resize(input, output, new Size(width, height), 0.0, 0.0, interpolation);
+	}
+
+	/**
+	 * Segment an image based on color ranges.
+	 * @param input The image on which to perform the RGB threshold.
+	 * @param red The min and max red.
+	 * @param green The min and max green.
+	 * @param blue The min and max blue.
+	 * @param output The image in which to store the output.
+	 */
+	private void rgbThreshold(Mat input, double[] red, double[] green, double[] blue,
+		Mat out) {
+		Imgproc.cvtColor(input, out, Imgproc.COLOR_BGR2RGB);
+		Core.inRange(out, new Scalar(red[0], green[0], blue[0]),
+			new Scalar(red[1], green[1], blue[1]), out);
+	}
+
+	/**
+	 * Filter out an area of an image using a binary mask.
+	 * @param input The image on which the mask filters.
+	 * @param mask The binary image that is used to filter.
+	 * @param output The image in which to store the output.
+	 */
+	private void mask(Mat input, Mat mask, Mat output) {
+		mask.convertTo(mask, CvType.CV_8UC1);
+		Core.bitwise_xor(output, output, output);
+		input.copyTo(output, mask);
 	}
 
 	/**
@@ -243,4 +300,5 @@ public class FindGearPegPipeline implements VisionPipeline {
 			output.add(contour);
 		}
 	}
+
 }

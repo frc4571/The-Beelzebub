@@ -4,6 +4,7 @@ import org.usfirst.frc.team4571.robot.commands.drive.AutoDriveCommand;
 import org.usfirst.frc.team4571.robot.commands.drive.RunFor30Minutes;
 import org.usfirst.frc.team4571.robot.commands.drive.TeleopDriveCommand;
 import org.usfirst.frc.team4571.robot.commands.drive.TurnDegreesCommand;
+import org.usfirst.frc.team4571.robot.commands.drive.TurnThenDrive;
 import org.usfirst.frc.team4571.robot.commands.gear.GearPneumaticsCommand;
 import org.usfirst.frc.team4571.robot.commands.gear.GearServoCommand;
 import org.usfirst.frc.team4571.robot.commands.mill.MillCommand;
@@ -37,10 +38,15 @@ public class Robot extends IterativeRobot {
 	// -- Drive -- //
 	public static final TeleopDriveCommand TANK_DRIVE_COMMAND = new TeleopDriveCommand();	
 	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();	
-	public static final AutoDriveCommand DRIVE_STRAIGHT_COMMAND = new AutoDriveCommand(24, 0.0);	
+	public static final AutoDriveCommand DRIVE_STRAIGHT_COMMAND = new AutoDriveCommand(12, 0.0);	
 	public static final TurnDegreesCommand TURN_RIGHT_90_DEGREES = new TurnDegreesCommand(90.0);
-	public static final TurnDegreesCommand TURN_LEFT_90_DEGREES = new TurnDegreesCommand(90.0);
-	public static final TurnDegreesCommand TURN_180_DEGREES = new TurnDegreesCommand(180.0);
+	public static final TurnDegreesCommand TURN_LEFT_90_DEGREES = new TurnDegreesCommand(-90.0);
+	public static final TurnDegreesCommand TURN_RIGHT_180_DEGREES = new TurnDegreesCommand(179.9f);
+	public static final TurnDegreesCommand TURN_LEFT_180_DEGREES = new TurnDegreesCommand(-179.9f);
+	public static final TurnDegreesCommand TURN_RIGHT_270_DEGREES = new TurnDegreesCommand(269.9f);
+	public static final TurnDegreesCommand TURN_LEFT_270_DEGREES = new TurnDegreesCommand(-269.9f);
+	public static final TurnDegreesCommand TURN_LEFT_150_DEGREES = new TurnDegreesCommand(-150.0f);
+	public static final TurnThenDrive TURN_RIGHT_45_AND_DRIVE_12_INCHES = new TurnThenDrive(45.0f, 12.0);
 
 	// -- Intake -- //
 //	public static final IntakeCommand INTAKE_COMMAND = new IntakeCommand();
@@ -58,7 +64,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		// TODO : Should this be in teleop init?
-		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_RIGHT_90_DEGREES);
 	}
 
 	@Override
@@ -92,6 +97,15 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
 		Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
 		//TODO : Do we need to mill command to be added here?
+		
+		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_LEFT_180_DEGREES);
+		Robot.RIGHT_JOYSTICK.button4WhenPressed(TURN_RIGHT_180_DEGREES);
+		Robot.LEFT_JOYSTICK.button3WhenPressed(TURN_LEFT_90_DEGREES);
+		Robot.RIGHT_JOYSTICK.button3WhenPressed(TURN_RIGHT_90_DEGREES);
+		Robot.RIGHT_JOYSTICK.button3WhenPressed(TURN_RIGHT_90_DEGREES);
+		Robot.LEFT_JOYSTICK.button1WhenPressed(TURN_LEFT_270_DEGREES);
+		Robot.RIGHT_JOYSTICK.button1WhenPressed(TURN_RIGHT_270_DEGREES);
+		Robot.LEFT_JOYSTICK.button2WhenPressed(TURN_RIGHT_45_AND_DRIVE_12_INCHES);
 	}
 
 	@Override

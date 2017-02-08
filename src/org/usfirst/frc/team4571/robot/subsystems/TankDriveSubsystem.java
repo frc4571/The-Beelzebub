@@ -34,13 +34,13 @@ public class TankDriveSubsystem extends Subsystem {
 	private final EncoderAverage encoderAverage;
 	private final PIDController distanceController;
 	
-	private double navKp = 0.05;
+	private double navKp = 1.37;
 	private double navKi = 0.0;
-	private double navKd = 0.0;
+	private double navKd = 1.551;
 	
 	private final AHRS navX;
 	private final DriveOutput angleOutput;
-	//private final PIDController turnController;
+	private final PIDController turnController;
 
 	public TankDriveSubsystem() {
 		this.frontLeftMotor = new CANTalon(RobotConstants.DRIVE_FRONT_LEFT_MOTOR_CHANNEL);
@@ -63,22 +63,27 @@ public class TankDriveSubsystem extends Subsystem {
 			public void pidWrite(double paramDouble) {
 				// Do nothing. this.angleOutput will take care of controlling the robot.
 				System.out.println( "Distance Controller pidwrite = " + paramDouble );
-				robotDrive.tankDrive(paramDouble,paramDouble);
+				//robotDrive.tankDrive(paramDouble,paramDouble);
 			}
 		});
 		
 		this.navX = new AHRS(SPI.Port.kMXP);
 		this.navX.setPIDSourceType(PIDSourceType.kDisplacement);
 		this.angleOutput = new DriveOutput(robotDrive, distanceController);
-		//this.turnController = new PIDController(navKp, navKi, navKd, navX, null); 
+		this.turnController = new PIDController(navKp, navKi, navKd, navX, angleOutput); 
 	}
 	
 	public void initDefaultCommand() {}
 
 	public void initialize() {
+		reset();
+		SmartDashboard.putData("Distance PID Controller",this.distanceController);
+		SmartDashboard.putData("Turn PID Controller",this.turnController );
+	}
+	
+	public void reset(){
 		this.encoderAverage.reset();
 		this.navX.reset();
-		SmartDashboard.putData("PID Controller",this.distanceController);
 	}
 	
 	public Encoder getLeftEncoder() {
@@ -106,36 +111,47 @@ public class TankDriveSubsystem extends Subsystem {
 	}
 
 	public boolean isBothFinished() {
-    	System.out.println("Distance Controller onTarget = " + distanceController.onTarget());
-		return distanceController.onTarget() ;//&& turnController.onTarget();
+		return distanceController.onTarget() && turnController.onTarget();
 	}
 	
-//	public boolean isTurnFinished() {
-//		return turnController.onTarget();
-//	}
+	public boolean isTurnFinished() {
+		return turnController.onTarget();
+	}
+	
+	public double getSetpoint(double setpoint) {
+		if (setpoint <= 0.0) {
+			return 0.0;
+		} else {
+			//TODO : Set safety for setpoint < DISTANCE_FROM_FRONT_TO_WHEEL
+			return setpoint - RobotConstants.DISTANCE_FROM_FRONT_TO_WHEEL;
+		}
+	}
 
 	public void setBothPIDParameters(double distanceSetPoint, double angleSetPoint) {
+		
 		distanceController.reset();
-//		turnController.reset();
+		turnController.reset();
 		
 		distanceController.setOutputRange(-0.6, 0.6);
-		distanceController.setSetpoint(distanceSetPoint);
-		distanceController.setAbsoluteTolerance(0.1 * distanceSetPoint);
+		distanceController.setSetpoint(getSetpoint(distanceSetPoint));
+		distanceController.setAbsoluteTolerance(0.1 * getSetpoint(distanceSetPoint));
 		
-//		turnController.setOutputRange(-0.6, 0.6);
-//		turnController.setSetpoint(angleSetPoint);
-//		turnController.setAbsoluteTolerance(2.0f);
+		turnController.setOutputRange(-0.6, 0.6);
+		turnController.setSetpoint(angleSetPoint);
+		turnController.setAbsoluteTolerance(5.0f);
 		
 		distanceController.enable();
-		//turnController.enable();
+		turnController.enable();
 	}
 	
 	public void setAnglePIDParameter(double angleSetPoint) {
-//		turnController.reset();		
-//		turnController.setOutputRange(-0.6, 0.6);
-//		turnController.setSetpoint(angleSetPoint);
-//		turnController.setAbsoluteTolerance(2.0f);
-//		turnController.enable();
+		turnController.reset();	
+		turnController.setInputRange(-180.0f, 180.0f);
+		turnController.setOutputRange(-0.6, 0.6);
+		turnController.setSetpoint(angleSetPoint);
+		turnController.setAbsoluteTolerance(5.0f);
+		//turnController.setContinuous(true);
+		turnController.enable();
 	}
 	
 	// Teleop drive
@@ -151,12 +167,12 @@ public class TankDriveSubsystem extends Subsystem {
 		return this.distanceController;
 	}
 	
-//	public PIDController getTurnController() {
-//		return this.turnController;
-//	}
+	public PIDController getTurnController() {
+		return this.turnController;
+	}
 	
 	public void disableBoth() {
 		this.distanceController.disable();
-//		this.turnController.disable();
+		this.turnController.disable();
 	}
 }

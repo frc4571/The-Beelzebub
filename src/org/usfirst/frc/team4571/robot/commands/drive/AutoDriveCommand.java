@@ -47,13 +47,15 @@ public class AutoDriveCommand extends Command {
     	SmartDashboard.putNumber("Distance D", Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().getD() );
     	
     	SmartDashboard.putNumber( "NavX angle", Robot.TANK_DRIVE_SUBSYSTEM.getNavXAngle() );    
-//    	SmartDashboard.putNumber("AngleOutput", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get());
-//    	SmartDashboard.putNumber("Angle SetPoint", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getSetpoint());
-//    	SmartDashboard.putNumber("Angle Error", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getError()); 
-//    	SmartDashboard.putNumber("Angle avg error", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getAvgError());
+    	SmartDashboard.putNumber("AngleOutput", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get());
+    	SmartDashboard.putNumber("Angle SetPoint", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getSetpoint());
+    	SmartDashboard.putNumber("Angle Error", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getError()); 
+    	SmartDashboard.putNumber("Angle avg error", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getAvgError());
     	
     	SmartDashboard.putBoolean("Distance Controller onTarget", Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().onTarget());
-//    	SmartDashboard.putBoolean("Turn Controller onTarget", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().onTarget());
+    	SmartDashboard.putBoolean("Turn Controller onTarget", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().onTarget());
+    	System.out.println("Left Speed ( Distance - Turn )= " +  (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() - Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
+    	System.out.println("Right Speed ( Distance + Turn )= " +  (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() + Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
     }
 
     protected boolean isFinished() {

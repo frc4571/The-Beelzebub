@@ -4,39 +4,40 @@ import org.usfirst.frc.team4571.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeCommand extends Command {
-	
+public class IntakeSolenoid extends Command {
+
 	private boolean isRollerOut;
-	
-	public IntakeCommand() {
+	private boolean isRollerDown;
+
+	public IntakeSolenoid() {
 		requires(Robot.INTAKE_SUBSYSTEM);
 	}
 
 	protected void initialize() {
 		Robot.INTAKE_SUBSYSTEM.initialize();
 		isRollerOut = true;
+		isRollerDown = true;
 	}
-	
-	protected void execute() {
-		if( isRollerOut ) {
+    protected void execute() {
+		if( isRollerOut ){
 			Robot.INTAKE_SUBSYSTEM.stopRoller();
 			Robot.INTAKE_SUBSYSTEM.pushIn();
 		} else{
 			Robot.INTAKE_SUBSYSTEM.pushOut();
-			//TODO : We shouldnt have to set a constant speed here. This should be passed in from somewhere
-			Robot.INTAKE_SUBSYSTEM.setSpeed(.5);
 		}
 		isRollerOut = !isRollerOut;
+		if(isRollerDown){
+			Robot.INTAKE_SUBSYSTEM.pushUp();
+		}else{
+			Robot.INTAKE_SUBSYSTEM.pushDown();
+		}
+		isRollerDown = !isRollerDown;
 	}
-	
 	protected boolean isFinished() {
-		return false;
+		return true;
 	}
-	
 	protected void end() {
-		Robot.INTAKE_SUBSYSTEM.stopRoller();
 	}
-
-	protected void interrupted() {}
-	
+	protected void interrupted() {
+	}
 }

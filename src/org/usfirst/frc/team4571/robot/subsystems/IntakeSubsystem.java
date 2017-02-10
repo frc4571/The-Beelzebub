@@ -1,11 +1,8 @@
 package org.usfirst.frc.team4571.robot.subsystems;
 
-import org.usfirst.frc.team4571.robot.RobotConstants;
-
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Encoder;
@@ -21,6 +18,7 @@ public class IntakeSubsystem extends Subsystem {
 	private Encoder encoder;
 
 	public IntakeSubsystem(){
+
 		this.intakeMotor = new CANTalon(RobotConstants.INTAKE_MOTOR_CHANNEL);
 		this.solenoidInAndOut = new DoubleSolenoid(RobotConstants.ROLLER_FOWARD_SOLENOID_CHANNEL, RobotConstants.ROLLER_REVERSE_SOLENOID_CHANNEL);
 		this.solenoidUpAndDown = new DoubleSolenoid(RobotConstants.ROLLER_FOWARD_SOLENOID_CHANNEL, RobotConstants.ROLLER_REVERSE_SOLENOID_CHANNEL);

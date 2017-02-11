@@ -10,6 +10,7 @@ import org.usfirst.frc.team4571.robot.commands.gear.GearServoCommand;
 import org.usfirst.frc.team4571.robot.commands.mill.MillCommand;
 import org.usfirst.frc.team4571.robot.commands.vision.TestVisionCommand;
 import org.usfirst.frc.team4571.robot.subsystems.GearSubsystem;
+import org.usfirst.frc.team4571.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.MillSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
 
@@ -30,7 +31,7 @@ public class Robot extends IterativeRobot {
 
 	// Subsystems
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
-	//public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
+	public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
 	public static final MillSubsystem MILL_SUBSYSTEM = new MillSubsystem();
 	public static final GearSubsystem GEAR_SUBSYSTEM = new GearSubsystem();
 

@@ -4,6 +4,7 @@ import org.usfirst.frc.team4571.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+
 public class GearServoCommand extends Command{
 
 	private boolean rotateVal;

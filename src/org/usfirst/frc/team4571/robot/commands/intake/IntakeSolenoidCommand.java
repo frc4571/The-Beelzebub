@@ -18,7 +18,8 @@ public class IntakeSolenoidCommand extends Command {
 		isRollerOut = true;
 		isRollerDown = true;
 	}
-    protected void execute() {
+	
+	protected void execute() {
 		if( isRollerOut ){
 			Robot.INTAKE_SUBSYSTEM.stopRoller();
 			Robot.INTAKE_SUBSYSTEM.pushIn();
@@ -33,11 +34,14 @@ public class IntakeSolenoidCommand extends Command {
 		}
 		isRollerDown = !isRollerDown;
 	}
+	
 	protected boolean isFinished() {
 		return true;
 	}
+	
 	protected void end() {
 	}
+	
 	protected void interrupted() {
 	}
 }

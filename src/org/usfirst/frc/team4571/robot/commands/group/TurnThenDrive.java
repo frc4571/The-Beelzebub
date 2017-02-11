@@ -1,6 +1,8 @@
-package org.usfirst.frc.team4571.robot.commands.drive;
+package org.usfirst.frc.team4571.robot.commands.group;
 
 import org.usfirst.frc.team4571.robot.Robot;
+import org.usfirst.frc.team4571.robot.commands.drive.AutoDriveCommand;
+import org.usfirst.frc.team4571.robot.commands.drive.TurnDegreesCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

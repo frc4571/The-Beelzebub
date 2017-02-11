@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class EncoderAverage implements PIDSource {
-	
+
 	private Encoder leftEncoder;
 	private Encoder rightEncoder;
 	private PIDSourceType pidSource;
-	
+
 	public EncoderAverage(Encoder leftEnoder, Encoder rightEncoder) {
 		this.leftEncoder = leftEnoder;
 		this.rightEncoder = rightEncoder;

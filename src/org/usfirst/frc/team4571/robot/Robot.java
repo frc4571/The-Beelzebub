@@ -4,13 +4,12 @@ import org.usfirst.frc.team4571.robot.commands.drive.AutoDriveCommand;
 import org.usfirst.frc.team4571.robot.commands.drive.RunFor30Minutes;
 import org.usfirst.frc.team4571.robot.commands.drive.TeleopDriveCommand;
 import org.usfirst.frc.team4571.robot.commands.drive.TurnDegreesCommand;
-import org.usfirst.frc.team4571.robot.commands.drive.TurnThenDrive;
 import org.usfirst.frc.team4571.robot.commands.gear.GearPneumaticsCommand;
 import org.usfirst.frc.team4571.robot.commands.gear.GearServoCommand;
+import org.usfirst.frc.team4571.robot.commands.group.TurnThenDrive;
 import org.usfirst.frc.team4571.robot.commands.intake.IntakeRollerCommand;
 import org.usfirst.frc.team4571.robot.commands.intake.IntakeSolenoidCommand;
-import org.usfirst.frc.team4571.robot.commands.mill.MillCommand;
-import org.usfirst.frc.team4571.robot.commands.vision.TestVisionCommand;
+import org.usfirst.frc.team4571.robot.commands.mill.ForwardMillCommand;
 import org.usfirst.frc.team4571.robot.subsystems.GearSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.MillSubsystem;
@@ -56,15 +55,12 @@ public class Robot extends IterativeRobot {
 	public static final IntakeSolenoidCommand INTAKE_SOLENOID_COMMAND = new IntakeSolenoidCommand();
 
 	// -- Mill -- //
-	public static final MillCommand MILL_COMMAND = new MillCommand();
-
-	// -- Vision -- //
-	public static final TestVisionCommand TEST_VISION_COMMAND = new TestVisionCommand();
+	public static final ForwardMillCommand MILL_COMMAND = new ForwardMillCommand();
 
 	// -- Gear -- //
 	public static final GearPneumaticsCommand GEAR_PNEMATICS_COMMAND = new GearPneumaticsCommand();
 	public static final GearServoCommand GEAR_SERVO_COMMAND = new GearServoCommand();
-	 
+
 	@Override
 	public void robotInit() {}
 
@@ -82,9 +78,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-    Scheduler.getInstance().add(TEST_VISION_COMMAND);
-		Scheduler.getInstance().add(DRIVE_STRAIGHT_COMMAND);
-		Scheduler.getInstance().add(MILL_COMMAND);
+		// TODO : Add autonomous mode picker here + Command Groups
 	}
 
 	@Override
@@ -94,11 +88,13 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		// Instantiate commands
 		Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
 		Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
 		Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
-		//TODO : Do we need to mill command to be added here?
+		Scheduler.getInstance().add(MILL_COMMAND);
 		
+		// Setup joystick buttons
 		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_LEFT_180_DEGREES);
 		Robot.RIGHT_JOYSTICK.button4WhenPressed(TURN_RIGHT_180_DEGREES);
 		Robot.LEFT_JOYSTICK.button3WhenPressed(TURN_LEFT_90_DEGREES);

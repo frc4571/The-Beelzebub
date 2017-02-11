@@ -26,6 +26,6 @@ public class GearPneumaticsCommand extends Command {
 	}
 
 	protected boolean isFinished (){
-		return  true;
+		return true;
 	}
 }

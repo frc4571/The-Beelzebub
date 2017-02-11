@@ -17,11 +17,11 @@ public class RobotConstants {
 	public static final int RIGHT_DRIVE_ENCODER_CHANNEL_A = 2;
 	public static final int RIGHT_DRIVE_ENCODER_CHANNEL_B = 3; 
 
-	public static final double DRIVE_TRAIN_WHEEL_DIAMETER_IN_FEET = 6;
+	public static final double DRIVE_TRAIN_WHEEL_DIAMETER_IN_INCHES = 6;
 	public static final double DRIVE_TRAIN_PULSES_PER_REVOLUTION = 360.0;
 	public static final double GEAR_RATIO = 10.71;
 	public static final double REAL_DRIVE_TRAIN_PULSES_PER_REVOLUTION = DRIVE_TRAIN_PULSES_PER_REVOLUTION;// * GEAR_RATIO;
-	public static final double DISTANCE_TRAVELED_PER_PULSE = (Math.PI * DRIVE_TRAIN_WHEEL_DIAMETER_IN_FEET) / REAL_DRIVE_TRAIN_PULSES_PER_REVOLUTION;
+	public static final double DISTANCE_TRAVELED_PER_PULSE = (Math.PI * DRIVE_TRAIN_WHEEL_DIAMETER_IN_INCHES) / REAL_DRIVE_TRAIN_PULSES_PER_REVOLUTION;
 	public static final double DISTANCE_FROM_FRONT_TO_WHEEL = 4.15;
 	
 	// Intake subsystem
@@ -34,7 +34,7 @@ public class RobotConstants {
 	// Mill subsystem
 	public static final int MILL_LEFT_MOTOR_CHANNEL = 1;
 	public static final int MILL_RIGHT_MOTOR_CHANNEL = 2;
-	public static final double MILL_CONSTANT_SPEED = 1.0;
+	public static final double MILL_CONSTANT_SPEED = 0.5;
 	
 	// Shooter subsystem
 	public static final int SHOOTER_MOTOR_CHANNEL = 6;

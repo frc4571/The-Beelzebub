@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
+//TODO : Is this the right configuration for the joystick or do we need more  buttons?
 public class RobotJoystick extends Joystick {
 
 	private Button button1, button2, button3, button4;

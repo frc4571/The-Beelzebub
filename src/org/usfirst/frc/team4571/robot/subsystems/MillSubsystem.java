@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class MillSubsystem extends Subsystem {
 
+	//TODO : Do we have 2 motors on the mill?
 	private Servo leftMillMotor, rightMillMotor;
 
 	public MillSubsystem(){

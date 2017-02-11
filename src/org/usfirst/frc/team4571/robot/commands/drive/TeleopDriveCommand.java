@@ -13,7 +13,7 @@ public class TeleopDriveCommand extends Command {
     protected void initialize() {}
 
     protected void execute() {
-    	 Robot.TANK_DRIVE_SUBSYSTEM.drive(Robot.LEFT_JOYSTICK.getYAxisSpeed(), Robot.RIGHT_JOYSTICK.getYAxisSpeed());
+    	 Robot.TANK_DRIVE_SUBSYSTEM.drive(-Robot.LEFT_JOYSTICK.getYAxisSpeed(), -Robot.RIGHT_JOYSTICK.getYAxisSpeed());
     }                                       
 
     protected boolean isFinished() {

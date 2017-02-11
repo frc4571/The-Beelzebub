@@ -29,6 +29,10 @@ public class AutoDriveCommand extends Command {
     }
 
     protected void execute() {
+    	
+    	SmartDashboard.putNumber("Left Encoder Raw", Robot.TANK_DRIVE_SUBSYSTEM.getLeftEncoder().getRaw() );
+    	SmartDashboard.putNumber("Right Encoder Raw", Robot.TANK_DRIVE_SUBSYSTEM.getRightEncoder().getRaw() );
+    	
     	SmartDashboard.putNumber("Left Encoder distance", Robot.TANK_DRIVE_SUBSYSTEM.getLeftEncoderDistance() );
     	SmartDashboard.putNumber("Right Encoder distance", Robot.TANK_DRIVE_SUBSYSTEM.getRightEncoderDistance() );
     	SmartDashboard.putNumber("Average distance", Robot.TANK_DRIVE_SUBSYSTEM.getDistance() );
@@ -38,6 +42,10 @@ public class AutoDriveCommand extends Command {
     	SmartDashboard.putNumber("Distance Get Value", Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() );
     	SmartDashboard.putNumber("Distance Error", Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().getError() );
     	
+    	SmartDashboard.putNumber("Distance P", Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().getP() );
+    	SmartDashboard.putNumber("Distance I", Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().getI() );
+    	SmartDashboard.putNumber("Distance D", Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().getD() );
+    	
     	SmartDashboard.putNumber( "NavX angle", Robot.TANK_DRIVE_SUBSYSTEM.getNavXAngle() );    
     	SmartDashboard.putNumber("AngleOutput", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get());
     	SmartDashboard.putNumber("Angle SetPoint", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().getSetpoint());
@@ -46,6 +54,8 @@ public class AutoDriveCommand extends Command {
     	
     	SmartDashboard.putBoolean("Distance Controller onTarget", Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().onTarget());
     	SmartDashboard.putBoolean("Turn Controller onTarget", Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().onTarget());
+    	System.out.println("Left Speed ( Distance - Turn )= " +  (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() - Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
+    	System.out.println("Right Speed ( Distance + Turn )= " +  (Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().get() + Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().get()));
     }
 
     protected boolean isFinished() {
@@ -53,12 +63,10 @@ public class AutoDriveCommand extends Command {
     }
 
     protected void end() {
-    	Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().disable();
-    	Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().disable();
+    	Robot.TANK_DRIVE_SUBSYSTEM.disableBoth();
     }
     
     protected void interrupted() {
-    	Robot.TANK_DRIVE_SUBSYSTEM.getDistanceController().disable();
-    	Robot.TANK_DRIVE_SUBSYSTEM.getTurnController().disable();
+    	Robot.TANK_DRIVE_SUBSYSTEM.disableBoth();
     }
 }

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -26,16 +27,16 @@ public class TankDriveSubsystem extends Subsystem {
 
 	private Encoder leftEncoder, rightEncoder;
 	
-	private double encoderKp = 0.05;
-	private double encoderKi = 10.0;
-	private double encoderKd = 8.0;
+	private double encoderKp = 0.1;
+	private double encoderKi = 0.0;
+	private double encoderKd = 0.0;
 
 	private final EncoderAverage encoderAverage;
 	private final PIDController distanceController;
 	
-	private double navKp = 0.05;
+	private double navKp = 1.37;
 	private double navKi = 0.0;
-	private double navKd = 0.0;
+	private double navKd = 1.551;
 	
 	private final AHRS navX;
 	private final DriveOutput angleOutput;
@@ -51,8 +52,8 @@ public class TankDriveSubsystem extends Subsystem {
 
 		this.leftEncoder = new Encoder(RobotConstants.LEFT_DRIVE_ENCODER_CHANNEL_A, RobotConstants.LEFT_DRIVE_ENCODER_CHANNEL_B, true, EncodingType.k4X);
 		this.rightEncoder = new Encoder(RobotConstants.RIGHT_DRIVE_ENCODER_CHANNEL_A, RobotConstants.RIGHT_DRIVE_ENCODER_CHANNEL_B, false, EncodingType.k4X);
-		this.leftEncoder.setDistancePerPulse(RobotConstants.DISTANCE_PER_PULSE);
-		this.rightEncoder.setDistancePerPulse(RobotConstants.DISTANCE_PER_PULSE);
+		this.leftEncoder.setDistancePerPulse(RobotConstants.DISTANCE_TRAVELED_PER_PULSE);
+		this.rightEncoder.setDistancePerPulse(RobotConstants.DISTANCE_TRAVELED_PER_PULSE);
 
 		this.encoderAverage = new EncoderAverage(leftEncoder, rightEncoder);
 		this.encoderAverage.setPIDSourceType(PIDSourceType.kDisplacement);
@@ -61,6 +62,8 @@ public class TankDriveSubsystem extends Subsystem {
 			@Override
 			public void pidWrite(double paramDouble) {
 				// Do nothing. this.angleOutput will take care of controlling the robot.
+				System.out.println( "Distance Controller pidwrite = " + paramDouble );
+				//robotDrive.tankDrive(paramDouble,paramDouble);
 			}
 		});
 		
@@ -72,11 +75,25 @@ public class TankDriveSubsystem extends Subsystem {
 	
 	public void initDefaultCommand() {}
 
-	public void reset() {
+	public void initialize() {
+		reset();
+		SmartDashboard.putData("Distance PID Controller",this.distanceController);
+		SmartDashboard.putData("Turn PID Controller",this.turnController );
+	}
+	
+	public void reset(){
 		this.encoderAverage.reset();
 		this.navX.reset();
 	}
 	
+	public Encoder getLeftEncoder() {
+		return this.leftEncoder;
+	}
+	
+	public Encoder getRightEncoder() {
+		return this.rightEncoder;
+	}
+		
 	public double getLeftEncoderDistance() {
 		return this.leftEncoder.getDistance();
 	}
@@ -100,28 +117,42 @@ public class TankDriveSubsystem extends Subsystem {
 	public boolean isTurnFinished() {
 		return turnController.onTarget();
 	}
+	
+	public double getSetpoint(double setpoint) {
+		if (setpoint <= 0.0) {
+			return 0.0;
+		} else {
+			//TODO : Set safety for setpoint < DISTANCE_FROM_FRONT_TO_WHEEL
+			return setpoint - RobotConstants.DISTANCE_FROM_FRONT_TO_WHEEL;
+		}
+	}
 
 	public void setBothPIDParameters(double distanceSetPoint, double angleSetPoint) {
+		
 		distanceController.reset();
 		turnController.reset();
 		
+		//TODO : Make output range 1.0
 		distanceController.setOutputRange(-0.6, 0.6);
-		distanceController.setSetpoint(distanceSetPoint);
-		distanceController.setAbsoluteTolerance(0.1 * distanceSetPoint);
-		
+		distanceController.setSetpoint(getSetpoint(distanceSetPoint));
+		distanceController.setAbsoluteTolerance(0.1 * getSetpoint(distanceSetPoint));
+		//TODO : Make output range 1.0
 		turnController.setOutputRange(-0.6, 0.6);
 		turnController.setSetpoint(angleSetPoint);
-		turnController.setAbsoluteTolerance(2.0f);
+		turnController.setAbsoluteTolerance(5.0f);
 		
 		distanceController.enable();
 		turnController.enable();
 	}
 	
 	public void setAnglePIDParameter(double angleSetPoint) {
-		turnController.reset();		
+		turnController.reset();	
+		turnController.setInputRange(-180.0f, 180.0f);
+		//TODO : Make output range 1.0
 		turnController.setOutputRange(-0.6, 0.6);
 		turnController.setSetpoint(angleSetPoint);
-		turnController.setAbsoluteTolerance(2.0f);
+		turnController.setAbsoluteTolerance(5.0f);
+		//turnController.setContinuous(true);
 		turnController.enable();
 	}
 	

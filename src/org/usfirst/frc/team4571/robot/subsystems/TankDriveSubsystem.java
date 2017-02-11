@@ -72,7 +72,7 @@ public class TankDriveSubsystem extends Subsystem {
 	
 	public void initDefaultCommand() {}
 
-	public void initialize() {
+	public void reset() {
 		this.encoderAverage.reset();
 		this.navX.reset();
 	}

@@ -6,7 +6,8 @@ import org.usfirst.frc.team4571.robot.commands.drive.TeleopDriveCommand;
 import org.usfirst.frc.team4571.robot.commands.drive.TurnDegreesCommand;
 import org.usfirst.frc.team4571.robot.commands.gear.GearPneumaticsCommand;
 import org.usfirst.frc.team4571.robot.commands.gear.GearServoCommand;
-import org.usfirst.frc.team4571.robot.commands.intake.IntakeCommand;
+import org.usfirst.frc.team4571.robot.commands.intake.IntakeRollerCommand;
+import org.usfirst.frc.team4571.robot.commands.intake.IntakeSolenoidCommand;
 import org.usfirst.frc.team4571.robot.commands.mill.MillCommand;
 import org.usfirst.frc.team4571.robot.commands.vision.TestVisionCommand;
 import org.usfirst.frc.team4571.robot.subsystems.GearSubsystem;
@@ -45,7 +46,8 @@ public class Robot extends IterativeRobot {
 	public static final TurnDegreesCommand TURN_180_DEGREES = new TurnDegreesCommand(180.0);
 
 	// -- Intake -- //
-	public static final IntakeCommand INTAKE_COMMAND = new IntakeCommand();
+	public static final IntakeRollerCommand INTAKE_ROLLER_COMMAND = new IntakeRollerCommand(0.5);
+	public static final IntakeSolenoidCommand INTAKE_SOLENOID_COMMAND = new IntakeSolenoidCommand();
 
 	// -- Mill -- //
 	public static final MillCommand MILL_COMMAND = new MillCommand();
@@ -56,17 +58,17 @@ public class Robot extends IterativeRobot {
 	// -- Gear -- //
 	public static final GearPneumaticsCommand GEAR_PNEMATICS_COMMAND = new GearPneumaticsCommand();
 	public static final GearServoCommand GEAR_SERVO_COMMAND = new GearServoCommand();
- 
+	 
 	@Override
 	public void robotInit() {
 		// TODO : Should this be in teleop init?
-		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_RIGHT_90_DEGREES);
+		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_RIGHT_90_DEGREES);		
 	}
 
 	@Override
 	public void disabledInit(){
 		Robot.TANK_DRIVE_SUBSYSTEM.disableBoth();
-		Robot.TANK_DRIVE_SUBSYSTEM.initialize();
+		Robot.TANK_DRIVE_SUBSYSTEM.reset();
 	}
 
 	@Override

@@ -7,18 +7,19 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class IntakeRoller extends Command {
+public class IntakeRollerCommand extends Command {
 
-   
-	public IntakeRoller() {
+	private double intakeRollerSpeed;
+	
+	public IntakeRollerCommand( double intakeRollerSpeed ) {
     	requires(Robot.INTAKE_SUBSYSTEM);
+    	this.intakeRollerSpeed = intakeRollerSpeed;
     }
     protected void initialize() {
     }
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//TODO : We shouldnt have to set a constant speed here. This should be passed in from somewhere
-		Robot.INTAKE_SUBSYSTEM.setIntakeRollerSpeed(.5);
+		Robot.INTAKE_SUBSYSTEM.setIntakeRollerSpeed(intakeRollerSpeed);
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

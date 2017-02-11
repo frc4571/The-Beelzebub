@@ -1,8 +1,11 @@
 package org.usfirst.frc.team4571.robot.subsystems;
 
+import org.usfirst.frc.team4571.robot.RobotConstants;
+
 import com.ctre.CANTalon;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Encoder;

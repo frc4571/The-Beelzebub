@@ -4,12 +4,12 @@ import org.usfirst.frc.team4571.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class IntakeSolenoid extends Command {
+public class IntakeSolenoidCommand extends Command {
 
 	private boolean isRollerOut;
 	private boolean isRollerDown;
 
-	public IntakeSolenoid() {
+	public IntakeSolenoidCommand() {
 		requires(Robot.INTAKE_SUBSYSTEM);
 	}
 

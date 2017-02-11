@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class IntakeSubsystem extends Subsystem {
 
 	private CANTalon intakeMotor;
-	private DoubleSolenoid solenoidInAndOut;
-	private DoubleSolenoid solenoidUpAndDown;
+	private DoubleSolenoid inAndOutSolenoid;
+	private DoubleSolenoid upAndDownSolenoid;
 	private Compressor compressor;
 	@SuppressWarnings("unused")
 	private Encoder encoder;
@@ -20,37 +20,38 @@ public class IntakeSubsystem extends Subsystem {
 	public IntakeSubsystem(){
 
 		this.intakeMotor = new CANTalon(RobotConstants.INTAKE_MOTOR_CHANNEL);
-		this.solenoidInAndOut = new DoubleSolenoid(RobotConstants.ROLLER_FOWARD_SOLENOID_CHANNEL, RobotConstants.ROLLER_REVERSE_SOLENOID_CHANNEL);
-		this.solenoidUpAndDown = new DoubleSolenoid(RobotConstants.ROLLER_FOWARD_SOLENOID_CHANNEL, RobotConstants.ROLLER_REVERSE_SOLENOID_CHANNEL);
+		this.inAndOutSolenoid = new DoubleSolenoid(RobotConstants.ROLLER_FOWARD_SOLENOID_CHANNEL, RobotConstants.ROLLER_REVERSE_SOLENOID_CHANNEL);
+		this.upAndDownSolenoid = new DoubleSolenoid(RobotConstants.ROLLER_FOWARD_SOLENOID_CHANNEL, RobotConstants.ROLLER_REVERSE_SOLENOID_CHANNEL);
 		this.compressor = new Compressor(0);
 		this.compressor.setClosedLoopControl(true);
 		this.encoder = new Encoder(RobotConstants.INTAKE_ENCODER_CHANNEL_A, RobotConstants.INTAKE_ENCODER_CHANNEL_B, false,EncodingType.k4X);
 	}
-    public void initDefaultCommand() {}
-	
+	public void initDefaultCommand() {}
+
 	public void initialize() {
 		pushIn();
 		pushDown();
+		stopRoller();
 	}
 	public void pushOut(){
-		this.solenoidInAndOut.set(DoubleSolenoid.Value.kForward);
+		this.inAndOutSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 	public void pushIn(){
-		this.solenoidInAndOut.set(DoubleSolenoid.Value.kReverse);
+		this.inAndOutSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 	public void pushUp(){
-		this.solenoidUpAndDown.set(DoubleSolenoid.Value.kForward);
+		this.upAndDownSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 	public void pushDown(){
-		this.solenoidUpAndDown.set(DoubleSolenoid.Value.kReverse);
+		this.upAndDownSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
-	public Value getRollerSolenoidValueHorizontal(){
-		return solenoidInAndOut.get();
+	public Value getHorizontalRollerSolenoidValue(){
+		return inAndOutSolenoid.get();
 	}
-	public Value getRollerSolenoidValueVertical(){
-		return solenoidUpAndDown.get();
+	public Value getVerticalRollerSolenoidValue(){
+		return upAndDownSolenoid.get();
 	}
-	public void setSpeed(double speed){
+	public void setIntakeRollerSpeed(double speed){
 		this.intakeMotor.set(speed);
 	}
 	public void stopRoller() {

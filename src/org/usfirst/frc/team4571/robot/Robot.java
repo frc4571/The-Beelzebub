@@ -6,10 +6,12 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 import org.usfirst.frc.team4571.robot.components.vision.FindGearPegPipeline;
+import org.usfirst.frc.team4571.robot.vision.VisionProcessor;
+import org.usfirst.frc.team4571.robot.vision.VisionSnapshotRecorder;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.VideoCamera.WhiteBalance;
-import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj. CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.vision.VisionThread;
@@ -59,47 +61,11 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		// TODO : Should this be in teleop init?
 		// Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_RIGHT_90_DEGREES);
-		//  UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();		
-
-		UsbCamera camera = new UsbCamera("cam0", 0);
-		// UsbCamera camera = CameraServer.getInstance();
-		camera.setResolution(320, 240);
-		camera.setBrightness(5);
-		camera.setExposureManual(5);
-		camera.setWhiteBalanceManual(WhiteBalance.kFixedIndoor);
-		CameraServer.getInstance().startAutomaticCapture(camera);
-		
-		double f = 320 / (2 * 0.577);
-		double r = 57.2958;
-		
-		VisionThread visionThread = new VisionThread(camera, new FindGearPegPipeline(), pipeline -> {
-			try {
-				ArrayList<MatOfPoint> keyPoints = pipeline.findContoursOutput();
-				if (pipeline.findContoursOutput().size() > 0) {
-					System.err.println("Found " + pipeline.findContoursOutput().size() + " contours");
-				}
-				if (pipeline.filterContoursOutput().size() > 0) {
-					System.err.println("Filtered " + pipeline.filterContoursOutput().size() + " contours");
-				}
-				if (keyPoints != null) {
-					if (keyPoints.size() > 0) {
-						System.err.println("Found " + keyPoints.size() + " contours");
-					}
-					for (MatOfPoint keyPoint : keyPoints) {
-						Rect rect = Imgproc.boundingRect(keyPoint);
-						double d = 2 * 320 / (2 *rect.width * 0.557);
-						System.err.println("Found rect at (" + rect.x + ", " + rect.y + ") H: " + rect.height + ", W: " + rect.width);
-						System.err.println("Distance: " + Math.round(d) + " inches");
-						double dx = Math.atan((rect.x - 160) / f);
-						System.err.println("DX: " + dx * r);
-					}
-				}
-				//System.err.println("VisionThread finished processing");
-			} catch (Exception e) {
-				System.err.println(e.getMessage());
-			}
-		});
-		visionThread.start();
+		//  UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		VisionSnapshotRecorder.LOGGING = false;
+		VisionSnapshotRecorder.start();
+		Thread visionProcessor = new Thread(new VisionProcessor());
+		visionProcessor.start();
 	}
 
 	@Override

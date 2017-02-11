@@ -24,7 +24,7 @@ public class AutoDriveCommand extends Command {
     }
 
     protected void initialize() {
-    	Robot.TANK_DRIVE_SUBSYSTEM.initialize();
+    	Robot.TANK_DRIVE_SUBSYSTEM.reset();
     	Robot.TANK_DRIVE_SUBSYSTEM.setBothPIDParameters(distanceInFeet, angle);
     }
 

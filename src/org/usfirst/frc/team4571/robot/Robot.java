@@ -7,6 +7,8 @@ import org.usfirst.frc.team4571.robot.commands.drive.TurnDegreesCommand;
 import org.usfirst.frc.team4571.robot.commands.drive.TurnThenDrive;
 import org.usfirst.frc.team4571.robot.commands.gear.GearPneumaticsCommand;
 import org.usfirst.frc.team4571.robot.commands.gear.GearServoCommand;
+import org.usfirst.frc.team4571.robot.commands.intake.IntakeRollerCommand;
+import org.usfirst.frc.team4571.robot.commands.intake.IntakeSolenoidCommand;
 import org.usfirst.frc.team4571.robot.commands.mill.MillCommand;
 import org.usfirst.frc.team4571.robot.commands.vision.TestVisionCommand;
 import org.usfirst.frc.team4571.robot.subsystems.GearSubsystem;
@@ -49,7 +51,8 @@ public class Robot extends IterativeRobot {
 	public static final TurnThenDrive TURN_RIGHT_45_AND_DRIVE_12_INCHES = new TurnThenDrive(45.0f, 12.0);
 
 	// -- Intake -- //
-//	public static final IntakeCommand INTAKE_COMMAND = new IntakeCommand();
+	public static final IntakeRollerCommand INTAKE_ROLLER_COMMAND = new IntakeRollerCommand(0.5);
+	public static final IntakeSolenoidCommand INTAKE_SOLENOID_COMMAND = new IntakeSolenoidCommand();
 
 	// -- Mill -- //
 	public static final MillCommand MILL_COMMAND = new MillCommand();
@@ -60,16 +63,14 @@ public class Robot extends IterativeRobot {
 	// -- Gear -- //
 	public static final GearPneumaticsCommand GEAR_PNEMATICS_COMMAND = new GearPneumaticsCommand();
 	public static final GearServoCommand GEAR_SERVO_COMMAND = new GearServoCommand();
- 
+	 
 	@Override
-	public void robotInit() {
-		// TODO : Should this be in teleop init?
-	}
+	public void robotInit() {}
 
 	@Override
 	public void disabledInit(){
 		Robot.TANK_DRIVE_SUBSYSTEM.disableBoth();
-		Robot.TANK_DRIVE_SUBSYSTEM.initialize();
+		Robot.TANK_DRIVE_SUBSYSTEM.reset();
 	}
 
 	@Override
@@ -80,7 +81,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-//		Scheduler.getInstance().add(TEST_VISION_COMMAND);
+    Scheduler.getInstance().add(TEST_VISION_COMMAND);
 		Scheduler.getInstance().add(DRIVE_STRAIGHT_COMMAND);
 		Scheduler.getInstance().add(MILL_COMMAND);
 	}
@@ -93,7 +94,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
-		//Scheduler.getInstance().add(INTAKE_COMMAND);
 		Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
 		Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
 		//TODO : Do we need to mill command to be added here?

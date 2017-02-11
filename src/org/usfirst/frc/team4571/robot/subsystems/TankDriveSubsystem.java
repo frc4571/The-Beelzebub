@@ -132,10 +132,11 @@ public class TankDriveSubsystem extends Subsystem {
 		distanceController.reset();
 		turnController.reset();
 		
+		//TODO : Make output range 1.0
 		distanceController.setOutputRange(-0.6, 0.6);
 		distanceController.setSetpoint(getSetpoint(distanceSetPoint));
 		distanceController.setAbsoluteTolerance(0.1 * getSetpoint(distanceSetPoint));
-		
+		//TODO : Make output range 1.0
 		turnController.setOutputRange(-0.6, 0.6);
 		turnController.setSetpoint(angleSetPoint);
 		turnController.setAbsoluteTolerance(5.0f);
@@ -147,6 +148,7 @@ public class TankDriveSubsystem extends Subsystem {
 	public void setAnglePIDParameter(double angleSetPoint) {
 		turnController.reset();	
 		turnController.setInputRange(-180.0f, 180.0f);
+		//TODO : Make output range 1.0
 		turnController.setOutputRange(-0.6, 0.6);
 		turnController.setSetpoint(angleSetPoint);
 		turnController.setAbsoluteTolerance(5.0f);

@@ -22,6 +22,7 @@ public class RobotConstants {
 	public static final double GEAR_RATIO = 10.71;
 	public static final double REAL_DRIVE_TRAIN_PULSES_PER_REVOLUTION = DRIVE_TRAIN_PULSES_PER_REVOLUTION;// * GEAR_RATIO;
 	public static final double DISTANCE_TRAVELED_PER_PULSE = (Math.PI * DRIVE_TRAIN_WHEEL_DIAMETER_IN_FEET) / REAL_DRIVE_TRAIN_PULSES_PER_REVOLUTION;
+	public static final double DISTANCE_FROM_FRONT_TO_WHEEL = 4.15;
 	
 	// Intake subsystem
 	public static final int INTAKE_ENCODER_CHANNEL_A = 9;

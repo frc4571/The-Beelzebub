@@ -19,7 +19,7 @@ public class TurnDegreesCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.TANK_DRIVE_SUBSYSTEM.initialize();
+    	Robot.TANK_DRIVE_SUBSYSTEM.reset();
     	Robot.TANK_DRIVE_SUBSYSTEM.setAnglePIDParameter(angle);
     }
 

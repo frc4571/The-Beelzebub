@@ -44,5 +44,4 @@ public class RobotConstants {
 	public static final int GEAR_REVERSE_CHANNEL = 1;
 	public static final int GEAR_SERVO_CHANNEL = 0;
 	public static final int GEAR_COMPRESSOR_MODULE = 0;
-	public static final double DISTANCE_FROM_FRONT_TO_WHEEL = 4.15;
 }

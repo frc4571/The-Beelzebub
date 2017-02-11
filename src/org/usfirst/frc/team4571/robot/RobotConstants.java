@@ -27,8 +27,8 @@ public class RobotConstants {
 	// Intake subsystem
 	public static final int INTAKE_ENCODER_CHANNEL_A = 9;
 	public static final int INTAKE_ENCODER_CHANNEL_B = 10;
-	public static final int INTAKE_ROLLER_FOWARD_SOLENOID_CHANNEL = 0;
-	public static final int INTAKE_ROLLER_REVERSE_SOLENOID_CHANNEL = 1;
+	public static final int INTAKE_ROLLER_FOWARD_SOLENOID_CHANNEL = 5;
+	public static final int INTAKE_ROLLER_REVERSE_SOLENOID_CHANNEL = 6;
 	public static final int INTAKE_MOTOR_CHANNEL = 5;
 
 	// Mill subsystem

@@ -22,8 +22,9 @@ public class IntakeSubsystem extends Subsystem {
 
 	public IntakeSubsystem(){
 		this.intakeMotor = new CANTalon(RobotConstants.INTAKE_MOTOR_CHANNEL);
-		this.inAndOutSolenoid = new DoubleSolenoid(RobotConstants.ROLLER_FOWARD_SOLENOID_CHANNEL, RobotConstants.ROLLER_REVERSE_SOLENOID_CHANNEL);
-		this.upAndDownSolenoid = new DoubleSolenoid(RobotConstants.ROLLER_FOWARD_SOLENOID_CHANNEL, RobotConstants.ROLLER_REVERSE_SOLENOID_CHANNEL);
+		// TODO : Commenting out solenoids until we have the hardware apparatus ready
+//		this.inAndOutSolenoid = new DoubleSolenoid(RobotConstants.INTAKE_ROLLER_FOWARD_SOLENOID_CHANNEL, RobotConstants.INTAKE_ROLLER_REVERSE_SOLENOID_CHANNEL);
+//		this.upAndDownSolenoid = new DoubleSolenoid(RobotConstants.INTAKE_ROLLER_FOWARD_SOLENOID_CHANNEL, RobotConstants.INTAKE_ROLLER_REVERSE_SOLENOID_CHANNEL);
 		this.compressor = new Compressor(0);
 		this.compressor.setClosedLoopControl(true);
 		this.encoder = new Encoder(RobotConstants.INTAKE_ENCODER_CHANNEL_A, RobotConstants.INTAKE_ENCODER_CHANNEL_B, false,EncodingType.k4X);

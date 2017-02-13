@@ -12,16 +12,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ShooterSubsystem extends Subsystem {
 
-	public CANTalon shooterMotor; 
-	public Encoder rotationEncoder; 
-	private ShooterOutput shooterOutput ;
-	private PIDController rateController;
 	private static final double encoderKP = 0.0; 
 	private static final double encoderKI = 0.0;
 	private static final double encoderKD = 0.0;
-
-
-	public ShooterSubsystem (){
+	
+	private CANTalon shooterMotor; 
+	private Encoder rotationEncoder; 
+	private ShooterOutput shooterOutput ;
+	private PIDController rateController;
+	
+	public ShooterSubsystem(){
 		this.shooterMotor = new CANTalon (RobotConstants.SHOOTER_MOTOR_CHANNEL);
 		this.rotationEncoder = new Encoder(RobotConstants.SHOOTER_ENCODER_CHANNEL_A, RobotConstants.SHOOTER_ENCODER_CHANNEL_B, false, EncodingType.k4X);
 		this.rotationEncoder.setDistancePerPulse(RobotConstants.SHOOTER_RATE_PER_PULSE);

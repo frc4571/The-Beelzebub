@@ -38,6 +38,9 @@ public class RobotConstants {
 	
 	// Shooter subsystem
 	public static final int SHOOTER_MOTOR_CHANNEL = 6;
+	public static final int SHOOTER_ENCODER_CHANNEL_A = 0;
+	public static final int SHOOTER_ENCODER_CHANNEL_B = 1;
+	public static final int SHOOTER_RATE_PER_PULSE = 1;
 	
 	// Gear subsystem
 	public static final int GEAR_FORWARD_CHANNEL = 0;

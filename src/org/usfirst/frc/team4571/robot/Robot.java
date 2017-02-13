@@ -10,9 +10,12 @@ import org.usfirst.frc.team4571.robot.commands.group.TurnThenDrive;
 import org.usfirst.frc.team4571.robot.commands.intake.IntakeRollerCommand;
 import org.usfirst.frc.team4571.robot.commands.intake.IntakeSolenoidCommand;
 import org.usfirst.frc.team4571.robot.commands.mill.ForwardMillCommand;
+import org.usfirst.frc.team4571.robot.commands.shooter.AutonomousShooterCommand;
+import org.usfirst.frc.team4571.robot.commands.shooter.ShooterCommand;
 import org.usfirst.frc.team4571.robot.subsystems.GearSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.MillSubsystem;
+import org.usfirst.frc.team4571.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -35,6 +38,7 @@ public class Robot extends IterativeRobot {
 	public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
 	public static final MillSubsystem MILL_SUBSYSTEM = new MillSubsystem();
 	public static final GearSubsystem GEAR_SUBSYSTEM = new GearSubsystem();
+	public static final ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem (); 
 
 	// Commands
 	// -- Drive -- //
@@ -61,6 +65,10 @@ public class Robot extends IterativeRobot {
 	public static final GearPneumaticsCommand GEAR_PNEMATICS_COMMAND = new GearPneumaticsCommand();
 	public static final GearServoCommand GEAR_SERVO_COMMAND = new GearServoCommand();
 
+	// -- Shooter -- //
+	public static final ShooterCommand SHOOTER_COMMAND = new ShooterCommand ();
+	public static final AutonomousShooterCommand AUTONOMOUS_SHOOTER = new AutonomousShooterCommand();
+	
 	@Override
 	public void robotInit() {}
 
@@ -93,6 +101,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
 		Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
 		Scheduler.getInstance().add(MILL_COMMAND);
+		Scheduler.getInstance().add(SHOOTER_COMMAND);
 		
 		// Setup joystick buttons
 		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_LEFT_180_DEGREES);
@@ -103,6 +112,7 @@ public class Robot extends IterativeRobot {
 		Robot.LEFT_JOYSTICK.button1WhenPressed(TURN_LEFT_270_DEGREES);
 		Robot.RIGHT_JOYSTICK.button1WhenPressed(TURN_RIGHT_270_DEGREES);
 		Robot.LEFT_JOYSTICK.button2WhenPressed(TURN_RIGHT_45_AND_DRIVE_12_INCHES);
+		Robot.RIGHT_JOYSTICK.button2WhenPressed(SHOOTER_COMMAND);
 	}
 
 	@Override

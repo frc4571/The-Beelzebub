@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ShooterSubsystem extends Subsystem {
 
-	private static final double encoderKP = 0.0; 
+	private static final double encoderKP = 1.0; 
 	private static final double encoderKI = 0.0;
 	private static final double encoderKD = 0.0;
 	

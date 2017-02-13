@@ -22,11 +22,11 @@ public class ShooterSubsystem extends Subsystem {
 	private PIDController rateController;
 	
 	public ShooterSubsystem(){
-		this.shooterMotor = new CANTalon (RobotConstants.SHOOTER_MOTOR_CHANNEL);
+		this.shooterMotor = new CANTalon(RobotConstants.SHOOTER_MOTOR_CHANNEL);
 		this.rotationEncoder = new Encoder(RobotConstants.SHOOTER_ENCODER_CHANNEL_A, RobotConstants.SHOOTER_ENCODER_CHANNEL_B, false, EncodingType.k4X);
 		this.rotationEncoder.setDistancePerPulse(RobotConstants.SHOOTER_RATE_PER_PULSE);
-		this.shooterOutput = new ShooterOutput (shooterMotor);
-		this.rateController = new PIDController (encoderKP, encoderKI, encoderKD, rotationEncoder, shooterOutput);
+		this.shooterOutput = new ShooterOutput(shooterMotor);
+		this.rateController = new PIDController(encoderKP, encoderKI, encoderKD, rotationEncoder, shooterOutput);
 	}
 
 	protected void initDefaultCommand() {}

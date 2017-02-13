@@ -29,9 +29,9 @@ public class ShooterSubsystem extends Subsystem {
 		this.rateController = new PIDController(encoderKP, encoderKI, encoderKD, rotationEncoder, shooterOutput);
 	}
 
-	protected void initDefaultCommand() {}
+	protected void initDefaultCommand(){}
 
-	public void initialize (){
+	public void initialize(){
 		this.rotationEncoder.reset();
 	}
 

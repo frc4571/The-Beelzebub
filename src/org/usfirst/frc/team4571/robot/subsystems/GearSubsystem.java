@@ -4,46 +4,45 @@ import org.usfirst.frc.team4571.robot.RobotConstants;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Servo;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class GearSubsystem extends Subsystem {
 
-	private final DoubleSolenoid gearSolenoid;
+	private final DoubleSolenoid catcherPistons;
+	private final DoubleSolenoid releasePistons;
+	private final DoubleSolenoid gearBoxPistons; 
 	private final Compressor compressor;
-	private final Servo gearServo;
 
-	public GearSubsystem (){
-		this.gearSolenoid = new DoubleSolenoid( RobotConstants.GEAR_FORWARD_CHANNEL, RobotConstants.GEAR_REVERSE_CHANNEL );
-		this.gearServo = new Servo( RobotConstants.GEAR_SERVO_CHANNEL );
-		this.compressor = new Compressor( RobotConstants.GEAR_COMPRESSOR_MODULE );
+	public GearSubsystem() {
+		this.catcherPistons = new DoubleSolenoid(RobotConstants.CATCHER_PISTON_FORWARD_CHANNEL, RobotConstants.CATCHER_PISTON_REVERSE_CHANNEL);
+		this.releasePistons = new DoubleSolenoid(RobotConstants.RELEASE_PISTON_FORWARD_CHANNEL, RobotConstants.RELEASE_PISTON_REVERSE_CHANNEL);
+		this.gearBoxPistons = new DoubleSolenoid( RobotConstants.GEAR_BOX_PISTON_FORWARD_CHANNEL,RobotConstants.GEAR_BOX_PISTON_REVERSE_CHANNEL );
+		this.compressor = new Compressor(RobotConstants.GEAR_COMPRESSOR_MODULE);
 		this.compressor.setClosedLoopControl(true);
 	}
 
 	protected void initDefaultCommand() {}
 
-	public void initializeSubsystem (){
-		pushOut();
+	public void pushOut(DoubleSolenoid doubleSolenoid) {
+		doubleSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 
-	public void setServoRotation(double angle){
-		this.gearServo.setAngle(angle);
+	public void pushIn(DoubleSolenoid doubleSolenoid) {
+		doubleSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 
-	public  void pushOut() {
-		gearSolenoid.set(DoubleSolenoid.Value.kForward);
+	
+	public DoubleSolenoid getCatcher() {
+		return this.catcherPistons;
 	}
-
-	public void pushIn() {
-		gearSolenoid.set(DoubleSolenoid.Value.kReverse);
+	
+	public DoubleSolenoid getReleaser() {
+		return this.releasePistons;
 	}
-
-	public Value getSolenoidvalue(){
-		return gearSolenoid.get();
+	public DoubleSolenoid getGearShifter(){
+		return this.gearBoxPistons;
+		
 	}
-
-	public void stop(){
-		this.gearServo.set(0.0);
-	}
+	
 }

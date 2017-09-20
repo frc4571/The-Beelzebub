@@ -5,10 +5,9 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 
-//TODO : Is this the right configuration for the joystick or do we need more  buttons?
 public class RobotJoystick extends Joystick {
 
-	private Button button1, button2, button3, button4;
+	private Button button1, button2, button3, button4, button5, button6;
 	private double tuningParameter;
 
 	public RobotJoystick(int port) {
@@ -17,6 +16,8 @@ public class RobotJoystick extends Joystick {
 		this.button2 = new JoystickButton(this, 2);
 		this.button3 = new JoystickButton(this, 3);
 		this.button4 = new JoystickButton(this, 4);
+		this.button5 = new JoystickButton(this, 5);
+		this.button6 = new JoystickButton(this, 6);
 		this.tuningParameter = RobotConstants.JOYSTICK_TUNING_PARAMETER;
 	}
 
@@ -59,10 +60,31 @@ public class RobotJoystick extends Joystick {
 		this.button4.whenReleased(command);
 		return this;
 	}
+	
+	public RobotJoystick button5WhenPressed(Command command) {
+		this.button5.whenPressed(command);
+		return this;
+	}
+
+	public RobotJoystick button5WhenReleased(Command command) {
+		this.button5.whenReleased(command);
+		return this;
+	}
+	
+	public RobotJoystick button6WhenPressed(Command command) {
+		this.button6.whenPressed(command);
+		return this;
+	}
+
+	public RobotJoystick button6WhenReleased(Command command) {
+		this.button6.whenReleased(command);
+		return this;
+	}
 
 	public Button getButton1() {
 		return this.button1;	
 	}
+	
 
 	public Button getButton2() {
 		return this.button2;
@@ -75,14 +97,25 @@ public class RobotJoystick extends Joystick {
 	public Button getButton4() {
 		return this.button4;
 	}
+	
+	public Button getButton5() {
+		return this.button5;
+	}
+	
+	public Button getButton6() {
+		return this.button6;
+	}
 
 	public double getXAxisSpeed() {
 		return adjustForSensitivity(this.getRawAxis(0), getTuningParameter());
 	}
-
 	public double getYAxisSpeed() {
 		return adjustForSensitivity(this.getRawAxis(1), getTuningParameter());
 	}
+	
+//	public double getZAxisRotation() {
+//		return this.getRawAxis(3) * 2.0;
+//	}
 
 	public double getTuningParameter() {
 		return tuningParameter;

@@ -1,82 +1,86 @@
 package org.usfirst.frc.team4571.robot;
 
-import org.usfirst.frc.team4571.robot.commands.drive.AutoDriveCommand;
-import org.usfirst.frc.team4571.robot.commands.drive.RunFor30Minutes;
-import org.usfirst.frc.team4571.robot.commands.drive.TeleopDriveCommand;
-import org.usfirst.frc.team4571.robot.commands.drive.TurnDegreesCommand;
-import org.usfirst.frc.team4571.robot.commands.gear.GearPneumaticsCommand;
-import org.usfirst.frc.team4571.robot.commands.gear.GearServoCommand;
-import org.usfirst.frc.team4571.robot.commands.group.TurnThenDrive;
-import org.usfirst.frc.team4571.robot.commands.intake.IntakeRollerCommand;
-import org.usfirst.frc.team4571.robot.commands.intake.IntakeSolenoidCommand;
-import org.usfirst.frc.team4571.robot.commands.mill.ForwardMillCommand;
-import org.usfirst.frc.team4571.robot.commands.shooter.AutonomousShooterCommand;
+import org.usfirst.frc.team4571.robot.commands.AutonomousGear;
+import org.usfirst.frc.team4571.robot.commands.AutonomousSideGear;
+//import org.usfirst.frc.team4571.robot.commands.AutonomousGear;
+import org.usfirst.frc.team4571.robot.commands.climber.ClimberCommand;
+import org.usfirst.frc.team4571.robot.commands.climber.ClimberReverse;
+import org.usfirst.frc.team4571.robot.commands.drive.AutonomousDrive;
+import org.usfirst.frc.team4571.robot.commands.drive.GearBoxPistonsCommand;
+//import org.usfirst.frc.team4571.robot.commands.drive.GearBoxPistonsCommand;
+import org.usfirst.frc.team4571.robot.commands.drive.TeleOpDriveCommand;
+import org.usfirst.frc.team4571.robot.commands.drive.TurnCommand;
+import org.usfirst.frc.team4571.robot.commands.gear.GearCatcherCommand;
+import org.usfirst.frc.team4571.robot.commands.gear.GearReleaserCommand;
+import org.usfirst.frc.team4571.robot.commands.gear.OpenReleaser;
+//import org.usfirst.frc.team4571.robot.commands.gear.feederCommand;
 import org.usfirst.frc.team4571.robot.commands.shooter.ShooterCommand;
+//import org.usfirst.frc.team4571.robot.commands.shooter.mill;
+import org.usfirst.frc.team4571.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.GearSubsystem;
-import org.usfirst.frc.team4571.robot.subsystems.IntakeSubsystem;
-import org.usfirst.frc.team4571.robot.subsystems.MillSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team4571.robot.subsystems.TankDriveSubsystem;
+import org.usfirst.frc.team4571.robot.subsystems.millSubsystem;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 /**
- * 
- * @author arjunrao87
+ *
+ * @author Mahim, Arlenis, and Sharom
  *
  */
 public class Robot extends IterativeRobot {
 
-	// Joystick
+	// JoySticks
 	public static final RobotJoystick LEFT_JOYSTICK = new RobotJoystick(RobotConstants.LEFT_JOYSTICK_PORT);
 	public static final RobotJoystick RIGHT_JOYSTICK = new RobotJoystick(RobotConstants.RIGHT_JOYSTICK_PORT);
+	public static final RobotJoystick ARCADE_BUTTONS = new RobotJoystick (RobotConstants.ARCADE_BUTTONS_PORT);
 
 	// Subsystems
 	public static final TankDriveSubsystem TANK_DRIVE_SUBSYSTEM = new TankDriveSubsystem();
-	public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
-	public static final MillSubsystem MILL_SUBSYSTEM = new MillSubsystem();
 	public static final GearSubsystem GEAR_SUBSYSTEM = new GearSubsystem();
-	public static final ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem (); 
-
-	// Commands
-	// -- Drive -- //
-	public static final TeleopDriveCommand TANK_DRIVE_COMMAND = new TeleopDriveCommand();	
-	public static final RunFor30Minutes RUN_FOR_30_MIN = new RunFor30Minutes();	
-	public static final AutoDriveCommand DRIVE_STRAIGHT_COMMAND = new AutoDriveCommand(12, 0.0);	
-	public static final TurnDegreesCommand TURN_RIGHT_90_DEGREES = new TurnDegreesCommand(90.0);
-	public static final TurnDegreesCommand TURN_LEFT_90_DEGREES = new TurnDegreesCommand(-90.0);
-	public static final TurnDegreesCommand TURN_RIGHT_180_DEGREES = new TurnDegreesCommand(179.9f);
-	public static final TurnDegreesCommand TURN_LEFT_180_DEGREES = new TurnDegreesCommand(-179.9f);
-	public static final TurnDegreesCommand TURN_RIGHT_270_DEGREES = new TurnDegreesCommand(269.9f);
-	public static final TurnDegreesCommand TURN_LEFT_270_DEGREES = new TurnDegreesCommand(-269.9f);
-	public static final TurnDegreesCommand TURN_LEFT_150_DEGREES = new TurnDegreesCommand(-150.0f);
-	public static final TurnThenDrive TURN_RIGHT_45_AND_DRIVE_12_INCHES = new TurnThenDrive(45.0f, 12.0);
-
-	// -- Intake -- //
-	public static final IntakeRollerCommand INTAKE_ROLLER_COMMAND = new IntakeRollerCommand(0.5);
-	public static final IntakeSolenoidCommand INTAKE_SOLENOID_COMMAND = new IntakeSolenoidCommand();
-
-	// -- Mill -- //
-	public static final ForwardMillCommand MILL_COMMAND = new ForwardMillCommand();
-
-	// -- Gear -- //
-	public static final GearPneumaticsCommand GEAR_PNEMATICS_COMMAND = new GearPneumaticsCommand();
-	public static final GearServoCommand GEAR_SERVO_COMMAND = new GearServoCommand();
-
-	// -- Shooter -- //
-	public static final ShooterCommand SHOOTER_COMMAND = new ShooterCommand ();
-	public static final AutonomousShooterCommand AUTONOMOUS_SHOOTER = new AutonomousShooterCommand();
+	public static final ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem();
+	public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
+	//public static final millSubsystem MILL_SUBSYSTEM = new millSubsystem();
 	
+	
+	// Commands
+	
+	// Climber
+	public static final ClimberCommand CLIMBER_COMMAND = new ClimberCommand(Robot.ARCADE_BUTTONS.getButton4());
+	public static final ClimberReverse CLIMBER_REVERSE = new ClimberReverse(Robot.ARCADE_BUTTONS.getButton1());
+	
+	// Drive
+	public static final TeleOpDriveCommand TELE_OP_DRIVE_COMMAND = new TeleOpDriveCommand();	
+	public static final AutonomousDrive AUTONOMOUS = new AutonomousDrive(5, false);
+	public static final AutonomousDrive DRIVE_BACK = new AutonomousDrive(1, true);
+	
+	public AutonomousGear AUTONOMOUS_GEAR;
+	public AutonomousSideGear AUTONOMOUS_SIDE_GEAR;
+	public static final TurnCommand TURN_90_DEGREES = new TurnCommand(90.0f);
+	
+	// Gear
+	public static final GearCatcherCommand GEAR_CATCHER_COMMAND = new GearCatcherCommand(ARCADE_BUTTONS.getButton2());
+	public static final GearReleaserCommand GEAR_RELEASER_COMMAND = new GearReleaserCommand(ARCADE_BUTTONS.getButton3());
+	public static final GearBoxPistonsCommand GEARBOX_PISTON = new GearBoxPistonsCommand (LEFT_JOYSTICK.getButton1());
+	public static final OpenReleaser OPEN_RELEASER = new OpenReleaser();
+	
+	// Shooter
+	public static final ShooterCommand SHOOTER_COMMAND = new ShooterCommand(LEFT_JOYSTICK.getButton2());
+	//public static final mill MILL_COMMAND = new mill(LEFT_JOYSTICK.getButton2());
 	@Override
-	public void robotInit() {}
+	public void robotInit() {
+		//CameraServer.getInstance().startAutomaticCapture();
+		
+		AUTONOMOUS_GEAR = new AutonomousGear();
+		//AUTONOMOUS_SIDE_GEAR = new AutonomousSideGear();
+	}
 
 	@Override
-	public void disabledInit(){
-		Robot.TANK_DRIVE_SUBSYSTEM.disableBoth();
-		Robot.TANK_DRIVE_SUBSYSTEM.reset();
-	}
+	public void disabledInit(){}
 
 	@Override
 	public void disabledPeriodic() {
@@ -86,7 +90,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		// TODO : Add autonomous mode picker here + Command Groups
+		Scheduler.getInstance().add(AUTONOMOUS_GEAR);
+//		Scheduler.getInstance().add(AUTONOMOUS);
+		//Scheduler.getInstance().add(AUTONOMOUS_SIDE_GEAR);
 	}
 
 	@Override
@@ -96,23 +102,18 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		// Instantiate commands
-		Scheduler.getInstance().add(TANK_DRIVE_COMMAND);
-		Scheduler.getInstance().add(GEAR_PNEMATICS_COMMAND);
-		Scheduler.getInstance().add(GEAR_SERVO_COMMAND);
-		Scheduler.getInstance().add(MILL_COMMAND);
-		Scheduler.getInstance().add(SHOOTER_COMMAND);
+
+		Scheduler.getInstance().add(TELE_OP_DRIVE_COMMAND);
+		//Robot.ARCADE_BUTTONS.button1WhenPressed(CLIMBER_REVERSE);
+		Robot.ARCADE_BUTTONS.button2WhenPressed(GEAR_CATCHER_COMMAND);
+		Robot.ARCADE_BUTTONS.button3WhenPressed(GEAR_RELEASER_COMMAND);
+		Robot.ARCADE_BUTTONS.button4WhenPressed(CLIMBER_COMMAND);
+        Robot.LEFT_JOYSTICK.button1WhenPressed(GEARBOX_PISTON);
+//		Robot.LEFT_JOYSTICK.button4WhenPressed(CLIMBER_COMMAND);
+//		Robot.LEFT_JOYSTICK.button1WhenPressed(TURN_90_DEGREES);
+        Robot.LEFT_JOYSTICK.button2WhenPressed(SHOOTER_COMMAND);
 		
-		// Setup joystick buttons
-		Robot.LEFT_JOYSTICK.button4WhenPressed(TURN_LEFT_180_DEGREES);
-		Robot.RIGHT_JOYSTICK.button4WhenPressed(TURN_RIGHT_180_DEGREES);
-		Robot.LEFT_JOYSTICK.button3WhenPressed(TURN_LEFT_90_DEGREES);
-		Robot.RIGHT_JOYSTICK.button3WhenPressed(TURN_RIGHT_90_DEGREES);
-		Robot.RIGHT_JOYSTICK.button3WhenPressed(TURN_RIGHT_90_DEGREES);
-		Robot.LEFT_JOYSTICK.button1WhenPressed(TURN_LEFT_270_DEGREES);
-		Robot.RIGHT_JOYSTICK.button1WhenPressed(TURN_RIGHT_270_DEGREES);
-		Robot.LEFT_JOYSTICK.button2WhenPressed(TURN_RIGHT_45_AND_DRIVE_12_INCHES);
-		Robot.RIGHT_JOYSTICK.button2WhenPressed(SHOOTER_COMMAND);
+		
 	}
 
 	@Override

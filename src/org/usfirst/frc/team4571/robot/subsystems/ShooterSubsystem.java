@@ -1,61 +1,38 @@
 package org.usfirst.frc.team4571.robot.subsystems;
 
 import org.usfirst.frc.team4571.robot.RobotConstants;
-import org.usfirst.frc.team4571.robot.components.pid.ShooterOutput;
 
 import com.ctre.CANTalon;
 
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ShooterSubsystem extends Subsystem {
-
-	private static final double encoderKP = 1.0; 
-	private static final double encoderKI = 0.0;
-	private static final double encoderKD = 0.0;
 	
-	private CANTalon shooterMotor; 
-	private Encoder rotationEncoder; 
-	private ShooterOutput shooterOutput ;
-	private PIDController rateController;
+	public CANTalon shooterMotor; 
+	public CANTalon feederMotor;
+	public CANTalon feederMotor2;
+    
+	public ShooterSubsystem (){
+		this.shooterMotor = new CANTalon (RobotConstants.SHOOTER_MOTOR_CHANNEL);
+		this.feederMotor = new CANTalon (RobotConstants.MILL_MOTOR);
+		//this.feederMotor2 = new CANTalon (RobotConstants.MILL_MOTOR2);
+	}
 	
-	public ShooterSubsystem(){
-		this.shooterMotor = new CANTalon(RobotConstants.SHOOTER_MOTOR_CHANNEL);
-		this.rotationEncoder = new Encoder(RobotConstants.SHOOTER_ENCODER_CHANNEL_A, RobotConstants.SHOOTER_ENCODER_CHANNEL_B, false, EncodingType.k4X);
-		this.rotationEncoder.setDistancePerPulse(RobotConstants.SHOOTER_RATE_PER_PULSE);
-		this.shooterOutput = new ShooterOutput(shooterMotor);
-		this.rateController = new PIDController(encoderKP, encoderKI, encoderKD, rotationEncoder, shooterOutput);
+	protected void initDefaultCommand() {}
+	
+	public void start() {
+		 //Timer.delay(0.004);
+		 this.shooterMotor.set(0.90);	
+		 this.feederMotor.set(0.90);
+		 //this.feederMotor2.set(0.99);
 	}
-
-	protected void initDefaultCommand(){}
-
-	public void initialize(){
-		this.rotationEncoder.reset();
-	}
-
-	public void speed (double speed){
-		this.shooterMotor.set(0.95);
-	}
-
-	public boolean isShooterFinished(){
-		return rateController.onTarget();
-	}
-
-	public void setPIDParameters(double rate){
-		rateController.reset();
-		rateController.setOutputRange (-1,1);
-		rateController.setSetpoint(rate);
-		rateController.setAbsoluteTolerance(0.05*rate);
-		rateController.enable();
-	}
-
-	public PIDController getRateController(){
-		return this.rateController;
-	}
-
-	public void stop(){
+	
+	public void stop() {
 		this.shooterMotor.set(0.0);
+		this.feederMotor.set(0.0);
 	}
 }
+	
+ 
+	

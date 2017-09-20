@@ -92,7 +92,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		Scheduler.getInstance().add(AUTONOMOUS_GEAR);
 //		Scheduler.getInstance().add(AUTONOMOUS);
-		//Scheduler.getInstance().add(AUTONOMOUS_SIDE_GEAR);
+//		Scheduler.getInstance().add(AUTONOMOUS_SIDE_GEAR);
 	}
 
 	@Override

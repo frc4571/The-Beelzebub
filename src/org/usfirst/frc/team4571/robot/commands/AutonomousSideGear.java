@@ -11,7 +11,7 @@ public class AutonomousSideGear extends CommandGroup{
 	 public AutonomousSideGear() {
 	    	
 	    	addSequential(new AutonomousDrive(2.8,  false));
-	    	//Timer.delay(4.0);
+//	    	Timer.delay(4.0);
 	    	addSequential(new TurnCommand(-60.0f));
 	    	addSequential(new AutonomousDrive(3.6,false));
 	    	Timer.delay(1.0);

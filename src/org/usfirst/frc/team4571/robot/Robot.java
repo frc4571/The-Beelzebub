@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 	public static final GearSubsystem GEAR_SUBSYSTEM = new GearSubsystem();
 	public static final ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem();
 	public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
-	//public static final millSubsystem MILL_SUBSYSTEM = new millSubsystem();
+//	public static final millSubsystem MILL_SUBSYSTEM = new millSubsystem();
 	
 	
 	// Commands
@@ -70,13 +70,13 @@ public class Robot extends IterativeRobot {
 	
 	// Shooter
 	public static final ShooterCommand SHOOTER_COMMAND = new ShooterCommand(LEFT_JOYSTICK.getButton2());
-	//public static final mill MILL_COMMAND = new mill(LEFT_JOYSTICK.getButton2());
+//	public static final mill MILL_COMMAND = new mill(LEFT_JOYSTICK.getButton2());
 	@Override
 	public void robotInit() {
-		//CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 		
 		AUTONOMOUS_GEAR = new AutonomousGear();
-		//AUTONOMOUS_SIDE_GEAR = new AutonomousSideGear();
+//		AUTONOMOUS_SIDE_GEAR = new AutonomousSideGear();
 	}
 
 	@Override
@@ -104,7 +104,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 
 		Scheduler.getInstance().add(TELE_OP_DRIVE_COMMAND);
-		//Robot.ARCADE_BUTTONS.button1WhenPressed(CLIMBER_REVERSE);
+//		Robot.ARCADE_BUTTONS.button1WhenPressed(CLIMBER_REVERSE);
 		Robot.ARCADE_BUTTONS.button2WhenPressed(GEAR_CATCHER_COMMAND);
 		Robot.ARCADE_BUTTONS.button3WhenPressed(GEAR_RELEASER_COMMAND);
 		Robot.ARCADE_BUTTONS.button4WhenPressed(CLIMBER_COMMAND);

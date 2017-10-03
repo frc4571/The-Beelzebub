@@ -7,7 +7,6 @@ import com.ctre.CANTalon;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SPI;
@@ -59,7 +58,7 @@ public class TankDriveSubsystem extends Subsystem {
 		return this.gearBoxPistons;
 	}
 	
-//	public void shiftHigh(){
+//	public void shiftHigh() {
 //		gearBoxPistons.set(Value.kForward);
 //	}
 	

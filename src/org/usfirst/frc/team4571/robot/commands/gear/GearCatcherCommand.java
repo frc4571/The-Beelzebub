@@ -23,6 +23,7 @@ public class GearCatcherCommand extends Command {
 	protected void execute() {
 		if (isCatcherPushedOut) {
 			Robot.GEAR_SUBSYSTEM.pushOut(Robot.GEAR_SUBSYSTEM.getCatcher());
+			Robot.GEAR_SUBSYSTEM.pushOut(Robot.GEAR_SUBSYSTEM.getReleaser());
 		} else {
 			Robot.GEAR_SUBSYSTEM.pushIn(Robot.GEAR_SUBSYSTEM.getCatcher());
 		}		
